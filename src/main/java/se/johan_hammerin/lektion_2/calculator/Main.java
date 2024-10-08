@@ -17,7 +17,7 @@ public class Main {
         Config.printConfig();
 
 
-        System.out.printf("%.2f",TemperatureConverter.toCelcius(100));
+        System.out.printf("%.2f",TemperatureConverter.toCelsius(100));
     }
 
     private static int multiply(int firstNum, int secondNum) {

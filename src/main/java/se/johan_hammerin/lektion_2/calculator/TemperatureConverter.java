@@ -3,7 +3,7 @@ package se.johan_hammerin.lektion_2.calculator;
 public class TemperatureConverter {
 
     //Methods
-    public static double toCelcius(double fahrenheit) {
+    public static double toCelsius(double fahrenheit) {
         return (fahrenheit - 32) * 5 / 9;
     }
 

@@ -1,0 +1,18 @@
+Uppgifter för LinkedList:
+Uppgift 1: Kö-system för kunder
+Skriv ett program som simulerar ett kö-system där kunder läggs till i en kö, och den som står först i kön blir betjänad först. Använd LinkedList för att representera kön. Programmet ska:
+
+Lägga till fem kundnamn i kön.
+Skriv ut kön.
+Betjäna (ta bort) den första kunden i kön.
+Lägg till en ny kund sist i kön.
+Skriv ut den första kunden i kön utan att ta bort den.
+Skriv ut hela kön efter alla uppdateringar.
+
+Uppgift 2: Dubbelriktad lista för webbläsarhistorik
+Skriv ett program som simulerar webbläsarens historik. Programmet ska använda en LinkedList och ska kunna:
+
+Lägga till en ny sida i historiken.
+Gå bakåt och framåt mellan sidor (baserat på historiken).
+Visa vilken sida du är på just nu.
+Skriv ut hela historiken.

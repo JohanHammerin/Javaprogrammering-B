@@ -1,0 +1,19 @@
+Uppgifter för ArrayList:
+Uppgift 1: Hantera en dynamisk lista av studenter
+Skriv ett program som hanterar en lista av studentnamn med hjälp av ArrayList. Programmet ska:
+
+Lägga till fem studentnamn i listan.
+Skriva ut alla studentnamn.
+Uppdatera det andra namnet till ett nytt namn.
+Ta bort det sista studentnamnet från listan.
+Skriv ut det tredje studentnamnet i listan.
+Skriva ut alla studentnamn igen efter uppdateringarna.
+
+Uppgift 2: Dynamisk lista av heltal
+Skriv ett program som skapar en dynamisk lista med heltal med hjälp av ArrayList. Programmet ska:
+
+Lägga till 10 slumpmässiga heltal mellan 1 och 100.
+Skriv ut hela listan.
+Lägga till ett nytt tal i början av listan.
+Kontrollera om ett visst tal finns i listan.
+Sortera listan i stigande ordning och skriv ut den.

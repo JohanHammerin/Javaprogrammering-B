@@ -12,17 +12,39 @@ public class Main {
         searchHistory.add("Youtube.com");
         searchHistory.add("Facebook.com");
         try (Scanner input = new Scanner(System.in)) {
-            while (true) {
-                int i = 0;
-                System.out.println(searchHistory.get(i));
-                System.out.println("Vill du gå fram eller bakåt!");
-                if (input.next().equals("framåt")) {
-                    i++;
-                } else if (input.next().equals("bakåt")) {
-                    if(i == 0) {
-                        System.out.println("Du är ");
-                    }
-                    i--;
+            int index = 0;
+            boolean flag = true;
+            while (flag) {
+                System.out.println("Aktuell sida: " + searchHistory.get(index));  // Visa nuvarande sida
+                System.out.println("Vill du gå 'framåt', 'bakåt', eller avsluta med '*'.");
+                String choice = input.nextLine();
+
+
+                switch (choice) {
+                    case "framåt":
+                        if (index == searchHistory.size() - 1) {
+                            System.out.println("Du kan inte gå längre framåt.");
+                        } else {
+                            index++;
+                            System.out.println("Flyttat fram till: " + searchHistory.get(index));
+                        }
+                        break;
+                    case "bakåt":
+                        if (index == 0) {
+                            System.out.println("Du kan inte gå längre bak.");
+                        } else {
+                            index--;
+                            System.out.println("Flyttat bakåt till: " + searchHistory.get(index));
+                        }
+                        break;
+                    case "*":
+                        System.out.println("Programmet avslutas...");
+                        flag = false;
+                        break;
+
+                    default:
+                        System.out.println("Du kan endast ange 'framåt', 'bakåt', eller avsluta med '*'");
+                        break;
                 }
 
             }

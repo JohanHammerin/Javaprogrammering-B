@@ -1,0 +1,10 @@
+Extra utmaning: Prestandajämförelse mellan ArrayList och LinkedList
+Skriv ett program där du jämför prestandan mellan en ArrayList och en LinkedList genom att utföra samma operationer på båda datastrukturerna. Programmet ska:
+
+Skapa en ArrayList och en LinkedList med 100 000 heltal.
+Lägg till 10 000 nya element i slutet av båda listorna och mät tiden.
+Lägg till 10 000 nya element i början av båda listorna och mät tiden.
+Ta bort 5 000 element i mitten av båda listorna och mät tiden.
+Ta fram det 50 000
+elementet i båda listorna och mät tiden.
+Krav: Använd System.nanoTime() för att mäta tiden och visa vilken datastruktur som presterar bäst för olika operationer.

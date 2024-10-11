@@ -1,0 +1,93 @@
+Uppgift 1: Sortera en ArrayList med strängar
+Beskrivning:
+Skapa ett program som skapar en ArrayList med bilmärken och sorterar dem i alfabetisk ordning (stigande). Skriv ut listan efter sortering.
+
+Krav:
+
+Skapa en ArrayList av typen String med fyra bilmärken.
+Använd Collections.sort() för att sortera listan.
+Skriv ut varje element i den sorterade listan.
+Exempelutdata:
+
+Kopiera kod
+BMW
+Ford
+Mazda
+Volvo
+Uppgift 2: Sortera en ArrayList med heltal
+Beskrivning:
+Skapa ett program som skapar en ArrayList med heltal och sorterar dem numeriskt i stigande ordning. Skriv ut den sorterade listan.
+
+Krav:
+
+Skapa en ArrayList av typen Integer med sex tal.
+Använd Collections.sort() för att sortera listan.
+Skriv ut varje element i den sorterade listan.
+Exempelutdata:
+
+Kopiera kod
+8
+12
+15
+20
+33
+34
+Uppgift 3: Sortera en ArrayList i omvänd ordning
+Beskrivning:
+Skapa ett program som skapar en ArrayList med bilmärken och sorterar dem i alfabetisk ordning (fallande). Skriv ut listan efter sortering.
+
+Krav:
+
+Skapa en ArrayList av typen String med fyra bilmärken.
+Använd Collections.sort() tillsammans med Collections.reverseOrder() för att sortera listan i omvänd ordning.
+Skriv ut varje element i den sorterade listan.
+Exempelutdata:
+
+Kopiera kod
+Volvo
+Mazda
+Ford
+BMW
+Uppgift 4: Sortera en ArrayList med heltal i omvänd ordning
+Beskrivning:
+Skapa ett program som skapar en ArrayList med heltal och sorterar dem numeriskt i fallande ordning. Skriv ut listan efter sortering.
+
+Krav:
+
+Skapa en ArrayList av typen Integer med sex tal.
+Använd Collections.sort() tillsammans med Collections.reverseOrder() för att sortera listan i fallande ordning.
+Skriv ut varje element i den sorterade listan.
+Exempelutdata:
+
+Kopiera kod
+34
+33
+20
+15
+12
+8
+Uppgift 5: Sortera en dynamiskt skapad lista
+Beskrivning:
+Skapa ett program där användaren får mata in fem heltal som lagras i en ArrayList. Sortera sedan listan i stigande ordning och skriv ut den.
+
+Krav:
+
+Använd Scanner för att läsa in fem heltal från användaren och lagra dem i en ArrayList.
+Använd Collections.sort() för att sortera listan.
+Skriv ut varje element i den sorterade listan.
+Exempelutdata:
+
+yaml
+Kopiera kod
+Ange fem heltal:
+10
+3
+25
+7
+14
+
+3
+7
+10
+14
+25

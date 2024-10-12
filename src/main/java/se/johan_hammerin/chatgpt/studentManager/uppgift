@@ -1,0 +1,26 @@
+Uppgift: Hantera studentinformation och jämför prestanda mellan ArrayList och LinkedList
+Beskrivning:
+Du ska skapa ett program som hanterar en lista med studenter, där varje student har ett namn och en ålder. Ditt program ska kunna:
+
+Lägga till studenter i listan.
+Ta bort studenter från listan.
+Söka efter en student baserat på namn och skriva ut deras ålder.
+Skriva ut alla studenter.
+Krav:
+Använd både ArrayList och LinkedList och mät prestandan på operationerna ovan (t.ex. lägga till, ta bort, söka).
+Jämför hur lång tid det tar för varje operation i de två olika listorna.
+Bygg programmet så att du enkelt kan byta mellan ArrayList och LinkedList för att göra jämförelserna.
+Steg:
+Skapa en klass Student med attribut för namn och ålder.
+Skapa en klass StudentManager som hanterar listan av studenter (använd antingen ArrayList eller LinkedList).
+Lägg till funktioner för att:
+Lägga till studenter.
+Ta bort studenter.
+Sök efter en student baserat på namn.
+Skriv ut alla studenter i listan.
+Mät tid för att lägga till, ta bort och söka efter studenter i både ArrayList och LinkedList.
+Bonus:
+Implementera testdata med 100 000 studenter och mät prestandan på varje operation.
+Fundera över varför vissa operationer går snabbare på ArrayList och andra på LinkedList.
+Förväntat resultat:
+Ditt program ska visa skillnaden i prestanda mellan de två listtyperna och hjälpa dig att förstå när det är bättre att använda ArrayList och när LinkedList är mer fördelaktigt.

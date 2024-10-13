@@ -1,0 +1,20 @@
+Uppgift 1: Lägga till och skriva ut nyckel/värde-par i en HashMap
+Beskrivning:
+Skapa ett program som skapar en HashMap för att lagra huvudstäder och deras länder. Lägg till fyra par (land/huvudstad) och skriv sedan ut hela HashMap.
+
+Uppgift 2: Hämta ett värde från en HashMap
+Beskrivning:
+Skapa en HashMap med huvudstäder och länder. Skriv sedan ut huvudstaden för ett specifikt land genom att använda landets namn som nyckel.
+
+Uppgift 3: Ta bort en post från en HashMap
+Beskrivning:
+Skapa en HashMap med minst fyra länder och deras huvudstäder. Ta bort en post med hjälp av nyckeln (landets namn) och skriv ut den uppdaterade HashMap.
+
+Uppgift 4: Räkna antalet poster i en HashMap
+Beskrivning:
+Skapa en HashMap med flera länder och deras huvudstäder. Räkna och skriv ut antalet poster i HashMap genom att använda metoden size().
+
+Uppgift 5: Loopa genom nycklar och värden i en HashMap
+Beskrivning:
+Skapa en HashMap med flera länder och deras huvudstäder. Använd en for-each-loop för att skriva ut både länder och deras huvudstäder i formatet:
+key: [land] value: [huvudstad].

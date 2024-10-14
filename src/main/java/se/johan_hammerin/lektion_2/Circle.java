@@ -1,4 +1,4 @@
-package se.johan_hammerin.lektion_2.calculator;
+package se.johan_hammerin.lektion_2;
 
 public class Circle {
     public static final double PI = 3.13159;

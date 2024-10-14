@@ -1,4 +1,4 @@
-package se.johan_hammerin.Hawaii.interfaces;
+package se.johan_hammerin.Hawaii;
 
 public interface Shape {
 

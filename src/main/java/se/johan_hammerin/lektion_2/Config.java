@@ -1,4 +1,4 @@
-package se.johan_hammerin.lektion_2.calculator;
+package se.johan_hammerin.lektion_2;
 
 public class Config {
     //Constants

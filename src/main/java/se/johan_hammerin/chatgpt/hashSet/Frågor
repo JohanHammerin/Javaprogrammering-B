@@ -1,0 +1,11 @@
+Skapa en HashSet som lagrar strängar. Lägg till följande bilmärken: "Volvo", "BMW", "Ford", och "Mazda". Skriv ut hela setet.
+
+Kontrollera om bilmärket "Mazda" finns i HashSet. Om det finns, skriv ut ett meddelande som säger att det hittades.
+
+Ta bort bilmärket "Volvo" från HashSet. Skriv sedan ut det uppdaterade setet för att verifiera att det har tagits bort.
+
+Skapa en loop som går igenom alla objekt i HashSet och skriver ut dem ett i taget.
+
+Skapa en HashSet som lagrar heltal. Lägg till siffrorna 4, 7 och 8. Skriv sedan en loop som går igenom siffrorna 1 till 10 och skriver ut om varje siffra finns i setet eller inte.
+
+Dessa frågor fokuserar på att använda grundläggande metoder och operationer i en HashSet i Java.

@@ -54,46 +54,16 @@ public class GUI {
         frame.setVisible(true);
 
         // Lägg till ActionListeners för knapparna som uppdaterar spelarens position
-        northButton.addActionListener(e -> moveHero(hero, 1, 0, 0, 0));
-        southButton.addActionListener(e -> moveHero(hero, 0, 1, 0, 0));
-        eastButton.addActionListener(e -> moveHero(hero, 0, 0, 1, 0));
-        westButton.addActionListener(e -> moveHero(hero, 0, 0, 0, 1));
+        northButton.addActionListener(e -> updatePosition(hero, 1, 0, 0, 0));
+        southButton.addActionListener(e -> updatePosition(hero, 0, 1, 0, 0));
+        eastButton.addActionListener(e -> updatePosition(hero, 0, 0, 1, 0));
+        westButton.addActionListener(e -> updatePosition(hero, 0, 0, 0, 1));
     }
 
     // Metod för att uppdatera spelarens position och textrutan
-    private void moveHero(Hero hero, int north, int south, int east, int west) {
-        // Hantera nord-syd rörelse
-        if (north == 1) {  // Rörelse norrut
-            if (hero.getSouth() > 0) {
-                hero.setSouth(hero.getSouth() - 1);  // Minska South först
-            } else {
-                hero.setNorth(hero.getNorth() + 1);  // Öka North om South är 0
-            }
-        } else if (south == 1) {  // Rörelse söderut
-            if (hero.getNorth() > 0) {
-                hero.setNorth(hero.getNorth() - 1);  // Minska North först
-            } else {
-                hero.setSouth(hero.getSouth() + 1);  // Öka South om North är 0
-            }
-        }
-
-        // Hantera öst-väst rörelse
-        if (east == 1) {  // Rörelse österut
-            if (hero.getWest() > 0) {
-                hero.setWest(hero.getWest() - 1);  // Minska West först
-            } else {
-                hero.setEast(hero.getEast() + 1);  // Öka East om West är 0
-            }
-        } else if (west == 1) {  // Rörelse västerut
-            if (hero.getEast() > 0) {
-                hero.setEast(hero.getEast() - 1);  // Minska East först
-            } else {
-                hero.setWest(hero.getWest() + 1);  // Öka West om East är 0
-            }
-        }
-
-        // Uppdatera textrutan med spelarens nya position
-        positionTextPane.setText(hero.getPosition());
+    private void updatePosition(Hero hero, int north, int south, int east, int west) {
+        hero.moveHero(north, south, east, west);  // Anropa hjälteklassens moveHero-metod
+        positionTextPane.setText(hero.getPosition());  // Uppdatera positionen i GUI:t
     }
 
     // Metod för att centrera text i JTextPane

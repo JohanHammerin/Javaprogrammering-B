@@ -1,12 +1,9 @@
 package se.johan_hammerin.adventureGame.characters;
 
-import java.util.Random;
-
 public class Hero extends Player {
     //Constants
     private static final int DAMAGE_PER_ATTACK = 10;
     private static final int STARTING_HEALTH = 100;
-    private static final Random random = new Random();
 
     //Attributes
     private int north;
@@ -21,23 +18,42 @@ public class Hero extends Player {
         setHealth(STARTING_HEALTH);
     }
 
-
-    //Method(fight)
-    public boolean retreat() {
-        //40% chans att fly
-        return (random.nextInt(10) + 1 > 6);
-    }
-
-    //Method(position)
+    //Method to get the position as a string
     public String getPosition() {
         return "N" + getNorth() + ".S" + getSouth() + ".E" + getEast() + ".W" + getWest();
     }
 
-    private void updatePosition(int north, int south, int east, int west) {
-        setNorth(north);
-        setSouth(south);
-        setEast(east);
-        setWest(west);
+    //Method to move the hero
+    public void moveHero(int north, int south, int east, int west) {
+        // Hantera nord-syd rörelse
+        if (north == 1) {  // Rörelse norrut
+            if (this.south > 0) {
+                this.south--;  // Minska South först
+            } else {
+                this.north++;  // Öka North om South är 0
+            }
+        } else if (south == 1) {  // Rörelse söderut
+            if (this.north > 0) {
+                this.north--;  // Minska North först
+            } else {
+                this.south++;  // Öka South om North är 0
+            }
+        }
+
+        // Hantera öst-väst rörelse
+        if (east == 1) {  // Rörelse österut
+            if (this.west > 0) {
+                this.west--;  // Minska West först
+            } else {
+                this.east++;  // Öka East om West är 0
+            }
+        } else if (west == 1) {  // Rörelse västerut
+            if (this.east > 0) {
+                this.east--;  // Minska East först
+            } else {
+                this.west++;  // Öka West om East är 0
+            }
+        }
     }
 
     //Getters & Setters
@@ -72,6 +88,4 @@ public class Hero extends Player {
     public void setWest(int west) {
         this.west = west;
     }
-
-
 }

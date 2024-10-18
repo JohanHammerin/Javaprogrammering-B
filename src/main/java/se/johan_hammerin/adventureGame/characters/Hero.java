@@ -27,31 +27,31 @@ public class Hero extends Player {
     public void moveHero(int north, int south, int east, int west) {
         // Hantera nord-syd rörelse
         if (north == 1) {  // Rörelse norrut
-            if (this.south > 0) {
-                this.south--;  // Minska South först
+            if (getSouth() > 0) {
+                setSouth(getSouth() - 1);  // Minska South först
             } else {
-                this.north++;  // Öka North om South är 0
+                setNorth(getNorth() + 1);  // Öka North om South är 0
             }
         } else if (south == 1) {  // Rörelse söderut
-            if (this.north > 0) {
-                this.north--;  // Minska North först
+            if (getNorth() > 0) {
+                setNorth(getNorth() - 1);  // Minska North först
             } else {
-                this.south++;  // Öka South om North är 0
+                setSouth(getSouth() + 1);  // Öka South om North är 0
             }
         }
 
         // Hantera öst-väst rörelse
         if (east == 1) {  // Rörelse österut
-            if (this.west > 0) {
-                this.west--;  // Minska West först
+            if (getWest() > 0) {
+                setWest(getWest() - 1);  // Minska West först
             } else {
-                this.east++;  // Öka East om West är 0
+                setEast(getEast() + 1);  // Öka East om West är 0
             }
         } else if (west == 1) {  // Rörelse västerut
-            if (this.east > 0) {
-                this.east--;  // Minska East först
+            if (getEast() > 0) {
+                setEast(getEast() - 1);  // Minska East först
             } else {
-                this.west++;  // Öka West om East är 0
+                setWest(getWest() + 1);   // Öka West om East är 0
             }
         }
     }

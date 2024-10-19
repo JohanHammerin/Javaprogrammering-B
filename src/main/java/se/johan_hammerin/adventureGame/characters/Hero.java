@@ -16,6 +16,10 @@ public class Hero extends Player {
         setName(name);
         setDamage(DAMAGE_PER_ATTACK);
         setHealth(STARTING_HEALTH);
+        setNorth(0);
+        setSouth(0);
+        setEast(0);
+        setWest(0);
     }
 
     //Method to get the position as a string

@@ -1,9 +1,10 @@
 package se.johan_hammerin.adventureGame.characters;
 
+import java.util.Random;
+
 public class Hero extends Player {
-    // Constants
-    private static final int DAMAGE_PER_ATTACK = 10;
-    private static final int STARTING_HEALTH = 100;
+    //Random
+    private static final Random random = new Random();
 
     // Attributes
     private int north;
@@ -14,8 +15,9 @@ public class Hero extends Player {
     // Constructor
     public Hero(String name) {
         setName(name);
-        setDamage(DAMAGE_PER_ATTACK);
-        setHealth(STARTING_HEALTH);
+        setDamage(10);
+        setHealth(100);
+        setCurrency(5);
         resetPosition();
     }
 
@@ -55,16 +57,49 @@ public class Hero extends Player {
         }
     }
 
+        // Exempel på logik som gör det svårare att fly om spelaren har attackerat
+        public boolean checkForRetreatBeforeAttacking() {
+            Random random = new Random();
+            if (this.hasAttackedOpponent()) {
+                return random.nextInt(100) < 30;  // 30% chans att fly efter attack
+            } else {
+                return random.nextInt(100) < 70;  // 70% chans att fly innan attack
+            }
+        }
+    }
+
+
+
+
     // Getters & Setters
-    public int getNorth() { return north; }
-    public void setNorth(int north) { this.north = north; }
+    public int getNorth() {
+        return north;
+    }
 
-    public int getSouth() { return south; }
-    public void setSouth(int south) { this.south = south; }
+    public void setNorth(int north) {
+        this.north = north;
+    }
 
-    public int getEast() { return east; }
-    public void setEast(int east) { this.east = east; }
+    public int getSouth() {
+        return south;
+    }
 
-    public int getWest() { return west; }
-    public void setWest(int west) { this.west = west; }
-}
+    public void setSouth(int south) {
+        this.south = south;
+    }
+
+    public int getEast() {
+        return east;
+    }
+
+    public void setEast(int east) {
+        this.east = east;
+    }
+
+    public int getWest() {
+        return west;
+    }
+
+    public void setWest(int west) {
+        this.west = west;
+    }

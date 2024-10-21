@@ -61,12 +61,27 @@ public class GUI {
                 new BattleWorker(hero, currentOpponent).execute();  // Starta stridsrunda i bakgrunden
             }
         });
-
         // Lägg till action för retreatknappen
         retreatButton.addActionListener(e -> {
-            hideBattleOptions();  // Göm stridsknapparna när spelaren retirerar
-            enableMovementButtons();  // Återaktivera rörelseknappar
-            updateHeroStatus(hero);  // Visa bara hjälteinformationen
+            if (currentOpponent.hasBeenAttacked()) {  // Kontrollera om motståndaren har blivit attackerad
+                JOptionPane.showMessageDialog(null, "Det är svårare att fly om man slår folk");
+                // Öka svårigheten att fly, t.ex. genom att lägga till en extra kontroll
+                if (!hero.checkForRetreatBeforeAttacking()) {
+                    JOptionPane.showMessageDialog(null, "Du lyckades inte fly!");
+                } else {
+                    hideBattleOptions();  // Göm stridsknapparna när spelaren retirerar
+                    enableMovementButtons();  // Återaktivera rörelseknappar
+                    updateHeroStatus(hero);  // Visa bara hjälteinformationen
+                }
+            } else {  // Om motståndaren inte har blivit attackerad, enklare att fly
+                if (hero.checkForRetreatBeforeAttacking()) {
+                    hideBattleOptions();  // Göm stridsknapparna när spelaren retirerar
+                    enableMovementButtons();  // Återaktivera rörelseknappar
+                    updateHeroStatus(hero);  // Visa bara hjälteinformationen
+                } else {
+                    JOptionPane.showMessageDialog(null, "Du lyckades inte fly!");
+                }
+            }
         });
 
         // Skapa en JTextPane för att visa spelarens koordinater
@@ -235,7 +250,7 @@ public class GUI {
             try {
                 String result = get();
                 publish(result);  // Publicera resultatet
-                Thread.sleep(2500);  // Vänta 2.5 sekunder för nästa strid
+                Thread.sleep(500);  // Vänta 2.5 sekunder för nästa strid
                 enableBattleButtons();  // Återaktivera stridsknappar
                 updateBattleStatus(hero, opponent);  // Uppdatera status
             } catch (InterruptedException | ExecutionException e) {

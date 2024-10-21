@@ -52,12 +52,4 @@ public class Game {
 
         return battleMessages.toString();
     }
-
-    // Initiera strid om det behövs
-    public void tryToStartBattle() {
-        if (checkForBattle()) {
-            Player opponent = createOpponent();  // Skapa en motståndare (Sheep)
-            battleRound(hero, opponent);  // Starta striden
-        }
-    }
 }

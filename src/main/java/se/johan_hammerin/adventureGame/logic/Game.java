@@ -20,6 +20,14 @@ public class Game {
         return random.nextInt(10) < 1;  // 10% chans att starta en strid
     }
 
+    public void failedToRetreat(Player opponent) {
+        // Motståndarens attack efter misslyckad flykt
+        battleRound(opponent);
+    }
+
+
+
+
     // Skapa en fiende (Sheep för detta exempel)
     public Player createOpponent() {
         return new Sheep();  // Skapa en ny Sheep
@@ -34,12 +42,30 @@ public class Game {
         battleMessages.append(hero.getName()).append(" attacks ").append(opponent.getName())
                 .append(" for ").append(hero.getDamage()).append(" damage. \n");
 
+
+        hero.setHasAttacked(true);
         // Kontrollera om motståndaren är besegrad
         if (opponent.getHealth() <= 0) {
             battleMessages.append(opponent.getName()).append(" is defeated!");
+            hero.endBattle();  // Återställ hjälteattackstatus när striden är över
             return battleMessages.toString();
         }
 
+        // Motståndaren attackerar hjälten
+        hero.setHealth(hero.getHealth() - opponent.getDamage());
+        battleMessages.append(opponent.getName()).append(" attacks ").append(hero.getName())
+                .append(" for ").append(opponent.getDamage()).append(" damage. \n");
+
+        // Kontrollera om hjälten är besegrad
+        if (hero.getHealth() <= 0) {
+            battleMessages.append(hero.getName()).append(" is defeated!");
+        }
+
+        return battleMessages.toString();
+    }
+
+    public String battleRound(Player opponent) {
+        StringBuilder battleMessages = new StringBuilder();
         // Motståndaren attackerar hjälten
         hero.setHealth(hero.getHealth() - opponent.getDamage());
         battleMessages.append(opponent.getName()).append(" attacks ").append(hero.getName())

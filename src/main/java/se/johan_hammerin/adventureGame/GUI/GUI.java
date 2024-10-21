@@ -61,28 +61,23 @@ public class GUI {
                 new BattleWorker(hero, currentOpponent).execute();  // Starta stridsrunda i bakgrunden
             }
         });
-        // Lägg till action för retreatknappen
+
         retreatButton.addActionListener(e -> {
-            if (currentOpponent.hasBeenAttacked()) {  // Kontrollera om motståndaren har blivit attackerad
-                JOptionPane.showMessageDialog(null, "Det är svårare att fly om man slår folk");
-                // Öka svårigheten att fly, t.ex. genom att lägga till en extra kontroll
-                if (!hero.checkForRetreatBeforeAttacking()) {
-                    JOptionPane.showMessageDialog(null, "Du lyckades inte fly!");
-                } else {
-                    hideBattleOptions();  // Göm stridsknapparna när spelaren retirerar
-                    enableMovementButtons();  // Återaktivera rörelseknappar
-                    updateHeroStatus(hero);  // Visa bara hjälteinformationen
-                }
-            } else {  // Om motståndaren inte har blivit attackerad, enklare att fly
-                if (hero.checkForRetreatBeforeAttacking()) {
-                    hideBattleOptions();  // Göm stridsknapparna när spelaren retirerar
-                    enableMovementButtons();  // Återaktivera rörelseknappar
-                    updateHeroStatus(hero);  // Visa bara hjälteinformationen
-                } else {
-                    JOptionPane.showMessageDialog(null, "Du lyckades inte fly!");
-                }
+            if (hero.checkForRetreat()) {
+                JOptionPane.showMessageDialog(null, "Du lyckades fly!");
+                hero.endBattle();  // Återställ hjälteattackstatus
+                hideBattleOptions();
+                enableMovementButtons();
+                updateHeroStatus(hero);
+            } else {
+                JOptionPane.showMessageDialog(null, "Du lyckades inte fly!\n" + currentOpponent.getClass().getSimpleName() + " attackerade dig!");
+                game.failedToRetreat(currentOpponent);  // Hantera motståndarens attack
+
+                // Uppdatera stridsstatus med sheep's attack
+                updateBattleStatus(hero, currentOpponent);
             }
         });
+
 
         // Skapa en JTextPane för att visa spelarens koordinater
         positionTextPane = new JTextPane();

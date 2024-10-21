@@ -11,6 +11,7 @@ public class Hero extends Player {
     private int south;
     private int east;
     private int west;
+    private boolean hasAttacked;
 
     // Constructor
     public Hero(String name) {
@@ -28,7 +29,10 @@ public class Hero extends Player {
 
     // Reset hero's position
     private void resetPosition() {
-        north = south = east = west = 0;
+        setNorth(0);
+        setSouth(0);
+        setEast(0);
+        setWest(0);
     }
 
     // Move the hero
@@ -57,18 +61,18 @@ public class Hero extends Player {
         }
     }
 
-        // Exempel på logik som gör det svårare att fly om spelaren har attackerat
-        public boolean checkForRetreatBeforeAttacking() {
-            Random random = new Random();
-            if (this.hasAttackedOpponent()) {
-                return random.nextInt(100) < 30;  // 30% chans att fly efter attack
-            } else {
-                return random.nextInt(100) < 70;  // 70% chans att fly innan attack
-            }
+    // Exempel på logik som gör det svårare att fly om spelaren har attackerat
+    public boolean checkForRetreat() {
+        if (this.isHasAttacked()) {
+            return random.nextInt(100) < 30;  // 30% chans att fly efter attack
+        } else {
+            return random.nextInt(100) < 70;  // 70% chans att fly innan attack
         }
     }
 
-
+    public void endBattle() {
+        this.hasAttacked = false;
+    }
 
 
     // Getters & Setters
@@ -103,3 +107,12 @@ public class Hero extends Player {
     public void setWest(int west) {
         this.west = west;
     }
+
+    public boolean isHasAttacked() {
+        return hasAttacked;
+    }
+
+    public void setHasAttacked(boolean hasAttacked) {
+        this.hasAttacked = hasAttacked;
+    }
+}

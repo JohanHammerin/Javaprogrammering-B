@@ -1,3 +1,6 @@
+package se.johan_hammerin.adventureGame.characters;
+
+
 public abstract class Player {
     private String name;
     private int health;
@@ -22,17 +25,31 @@ public abstract class Player {
     public void setBeenAttacked(boolean beenAttacked) {
         this.beenAttacked = beenAttacked;
     }
-    // Getters & Setters
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
 
-    public int getHealth() { return health; }
+    // Getters & Setters
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
     public void setHealth(int health) {
         this.health = Math.max(health, 0);
     }
 
-    public int getDamage() { return damage; }
-    public void setDamage(int damage) { this.damage = damage; }
+    public int getDamage() {
+        return damage;
+    }
+
+    public void setDamage(int damage) {
+        this.damage = damage;
+    }
 
 
     public int getCurrency() {
@@ -40,7 +57,7 @@ public abstract class Player {
     }
 
     public void setCurrency(int currency) {
-        if(currency < 0) {
+        if (currency < 0) {
             currency = 0;
         }
         this.currency = currency;

@@ -6,7 +6,7 @@ import se.johan_hammerin.adventureGame.GUI.GUI;
 public class Main {
     public static void main(String[] args) {
         Hero hero = new Hero("Hero");
-        Game game = new Game(hero);
+        new Game(hero);
         GUI gui = new GUI();
         gui.createGUI(hero);
     }

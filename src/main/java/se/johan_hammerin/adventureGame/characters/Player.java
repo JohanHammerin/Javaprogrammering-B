@@ -6,25 +6,7 @@ public abstract class Player {
     private int health;
     private int damage;
     private int currency;
-    private boolean beenAttacked = false;  // Ny variabel
 
-    // Metod för attack
-    public void attack(Player target) {
-        target.setHealth(target.getHealth() - damage);
-        target.setBeenAttacked(true);  // Markera att målet har blivit attackerat
-        System.out.printf("[%s] attacked [%s]%n", name, target.getName());
-        System.out.printf("[%s]: %d hp left%n", target.getName(), target.getHealth());
-    }
-
-    // Getter för att se om spelaren har blivit attackerad
-    public boolean hasBeenAttacked() {
-        return beenAttacked;
-    }
-
-    // Setter för att uppdatera om spelaren har blivit attackerad
-    public void setBeenAttacked(boolean beenAttacked) {
-        this.beenAttacked = beenAttacked;
-    }
 
     // Getters & Setters
     public String getName() {

@@ -3,8 +3,6 @@ package se.johan_hammerin.adventureGame.GUI;
 import javax.swing.*;
 import javax.swing.text.*;
 import java.awt.*;
-import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import se.johan_hammerin.adventureGame.characters.Hero;
 import se.johan_hammerin.adventureGame.logic.Game;
@@ -20,128 +18,130 @@ public class GUI {
     private JButton southButton;
     private JButton eastButton;
     private JButton westButton;
-    private Game game;  // Använd samma game-instans
-    private Player currentOpponent; // Håll koll på motståndaren
+    private Game game;
+    private Player currentOpponent;
 
     // Skapa GUI
     public void createGUI(Hero hero) {
-        game = new Game(hero);  // Passera hjälten till spelet
+        game = new Game(hero);
 
-        // Skapa en ny JFrame
         JFrame frame = new JFrame("Adventure Game");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(600, 600);  // Sätt storlek på fönstret
+        frame.setSize(600, 600);
 
-        // Skapa en JPanel med BorderLayout
         JPanel panel = new JPanel(new BorderLayout());
 
-        // Skapa fyra knappar, en för varje riktning
         northButton = new JButton("North");
         southButton = new JButton("South");
         eastButton = new JButton("East");
         westButton = new JButton("West");
 
-        // Lägg till knapparna i respektive position i BorderLayout
         panel.add(northButton, BorderLayout.NORTH);
         panel.add(southButton, BorderLayout.SOUTH);
         panel.add(eastButton, BorderLayout.EAST);
         panel.add(westButton, BorderLayout.WEST);
 
-        // Skapa en JPanel för mitten-innehållet med GridLayout (för flera komponenter)
-        centerPanel = new JPanel(new GridLayout(4, 1, 10, 10));  // 4 rader, 1 kolumn
+        centerPanel = new JPanel(new GridLayout(4, 1, 10, 10));
 
-        // Skapa två knappar för "Attack" och "Retreat"
         attackButton = new JButton("Attack");
         retreatButton = new JButton("Retreat");
 
-        // Lägg till action för attackknappen
-        attackButton.addActionListener(e -> {
+        // Hantera attack-logik
+        attackButton.addActionListener(_ -> {
             if (currentOpponent != null) {
                 disableBattleButtons();  // Inaktivera knappar medan vi väntar
-                new BattleWorker(hero, currentOpponent).execute();  // Starta stridsrunda i bakgrunden
+
+                // Båda attackerar samtidigt
+                game.battleRound(hero, currentOpponent);
+                if (currentOpponent.getHealth() > 0) {
+                    game.battleRound(currentOpponent);
+                }
+
+                // Uppdatera HP-status efter attacker
+                updateBattleStatus(hero, currentOpponent);
+
+                // Visa hela stridsloggen efter båda har attackerat
+                appendCombatLog(showCombatLog(hero, currentOpponent));
+
+                // Kontrollera om striden är över
+                if (currentOpponent != null && currentOpponent.getHealth() <= 0) {
+                    JOptionPane.showMessageDialog(null, currentOpponent.getName() + " defeated!");
+                    updateHeroStatus(hero);
+                    hideBattleOptions();
+                    enableMovementButtons();
+                    currentOpponent = null;
+                } else if (hero.getHealth() <= 0) {
+                    JOptionPane.showMessageDialog(null, "You have been defeated!");
+                    updateHeroStatus(hero);
+                    System.exit(0);
+                }
+                enableBattleButtons();  // Återaktivera knappar efter striden
             }
         });
 
-        retreatButton.addActionListener(e -> {
+        retreatButton.addActionListener(_ -> {
             if (hero.checkForRetreat()) {
                 JOptionPane.showMessageDialog(null, "Du lyckades fly!");
-                hero.endBattle();  // Återställ hjälteattackstatus
+                hero.endBattle();  // Återställ hjälteattacksstatus
                 hideBattleOptions();
                 enableMovementButtons();
                 updateHeroStatus(hero);
             } else {
                 JOptionPane.showMessageDialog(null, "Du lyckades inte fly!\n" + currentOpponent.getClass().getSimpleName() + " attackerade dig!");
-                game.failedToRetreat(currentOpponent);  // Hantera motståndarens attack
-
-                // Uppdatera stridsstatus med sheep's attack
+                game.battleRound(currentOpponent);  // Motståndaren attackerar
                 updateBattleStatus(hero, currentOpponent);
             }
         });
 
-
-        // Skapa en JTextPane för att visa spelarens koordinater
         positionTextPane = new JTextPane();
-        positionTextPane.setText(hero.getPosition());  // Sätt initial position
-        positionTextPane.setEditable(false);  // Gör textområdet ej redigerbart
-        positionTextPane.setFont(new Font("Arial", Font.BOLD, 16));  // Ändra fontstorlek
-        centerText(positionTextPane);  // Centrera texten
-
-        // Skapa en JTextPane för att visa stridsstatus (hjälte och motståndare)
-        battleStatusTextPane = new JTextPane();
-        battleStatusTextPane.setEditable(false);  // Gör stridsstatus-området ej redigerbart
-        battleStatusTextPane.setFont(new Font("Arial", Font.PLAIN, 14));  // Sätt fonten för stridsstatus
-
-        // Lägg till koordinaterna (de ska visas hela tiden)
+        positionTextPane.setText(hero.getPosition());
+        positionTextPane.setEditable(false);
+        positionTextPane.setFont(new Font("Arial", Font.BOLD, 16));
+        centerText(positionTextPane);
         centerPanel.add(positionTextPane);
 
-        // Lägg till stridsstatusrutan till centerPanel
+        battleStatusTextPane = new JTextPane();
+        battleStatusTextPane.setEditable(false);
+        battleStatusTextPane.setFont(new Font("Arial", Font.PLAIN, 14));
         centerPanel.add(battleStatusTextPane);
 
-        // Lägg till centerPanel i mitten av BorderLayout
         panel.add(centerPanel, BorderLayout.CENTER);
 
-        // Lägg till JPanel till JFrame
         frame.add(panel);
-
-        // Gör fönstret icke-resizable
         frame.setResizable(false);
-
-        // Centrera fönstret på skärmen
         frame.setLocationRelativeTo(null);
-
-        // Gör fönstret synligt
         frame.setVisible(true);
 
-        // Lägg till ActionListeners för knapparna som uppdaterar spelarens position
-        northButton.addActionListener(e -> updatePosition(hero, 1, 0, 0, 0));
-        southButton.addActionListener(e -> updatePosition(hero, 0, 1, 0, 0));
-        eastButton.addActionListener(e -> updatePosition(hero, 0, 0, 1, 0));
-        westButton.addActionListener(e -> updatePosition(hero, 0, 0, 0, 1));
+        northButton.addActionListener(_ -> updatePosition(hero, 1, 0, 0, 0));
+        southButton.addActionListener(_ -> updatePosition(hero, 0, 1, 0, 0));
+        eastButton.addActionListener(_ -> updatePosition(hero, 0, 0, 1, 0));
+        westButton.addActionListener(_ -> updatePosition(hero, 0, 0, 0, 1));
+
+        updateHeroStatus(hero);
     }
 
-    // Metod för att uppdatera spelarens position och textrutan
+    // Uppdatera spelarens position
     private void updatePosition(Hero hero, int north, int south, int east, int west) {
-        hero.moveHero(north, south, east, west);  // Flytta hjälten
-        positionTextPane.setText(hero.getPosition());  // Uppdatera positionen i GUI:t
+        hero.moveHero(north, south, east, west);
+        positionTextPane.setText(hero.getPosition());
 
-        // Kontrollera om strid ska startas efter att hjälten rört sig
         if (game.checkForBattle()) {
-            currentOpponent = game.createOpponent();  // Skapa en motståndare
-            showBattleOptions();  // Visa knapparna för "Attack" och "Retreat"
-            disableMovementButtons();  // Inaktivera rörelseknapparna under striden
-            updateBattleStatus(hero, currentOpponent);  // Uppdatera stridsstatusen
+            currentOpponent = game.createOpponent();
+            showBattleOptions();
+            disableMovementButtons();
+            updateBattleStatus(hero, currentOpponent);
         } else {
-            hideBattleOptions();  // Göm stridsknappar om ingen strid pågår
+            hideBattleOptions();
         }
     }
 
-    // Visa knapparna för "Attack" och "Retreat"
+    // Visa knapparna för strid
     private void showBattleOptions() {
         if (!centerPanel.isAncestorOf(attackButton)) {
-            centerPanel.add(attackButton);  // Lägg till "Attack"-knappen
+            centerPanel.add(attackButton);
         }
         if (!centerPanel.isAncestorOf(retreatButton)) {
-            centerPanel.add(retreatButton);  // Lägg till "Retreat"-knappen
+            centerPanel.add(retreatButton);
         }
         centerPanel.revalidate();
         centerPanel.repaint();
@@ -149,36 +149,55 @@ public class GUI {
 
     // Göm knapparna för strid
     private void hideBattleOptions() {
-        centerPanel.remove(attackButton);  // Ta bort "Attack"-knappen
-        centerPanel.remove(retreatButton);  // Ta bort "Retreat"-knappen
+        centerPanel.remove(attackButton);
+        centerPanel.remove(retreatButton);
         centerPanel.revalidate();
         centerPanel.repaint();
     }
 
-    // Uppdatera stridens status i textrutan under striden
+    // Uppdatera stridsstatus (HP-information visas alltid överst)
     private void updateBattleStatus(Hero hero, Player opponent) {
-        String battleStatus = "Hero: " + hero.getName() + " - Health: " + hero.getHealth() + "\n" +
-                "Opponent: " + opponent.getName() + " - Health: " + opponent.getHealth() + "\n";
-        battleStatusTextPane.setText(battleStatus);  // Uppdatera stridsstatusrutan
-
-        if (opponent.getHealth() <= 0) {
-            JOptionPane.showMessageDialog(null, opponent.getName() + " defeated!");
-            hideBattleOptions();  // Göm knapparna när motståndaren besegras
-            enableMovementButtons();  // Återaktivera rörelseknappar
-            currentOpponent = null;
-            updateHeroStatus(hero);  // Visa bara hjälteinformationen
-        } else if (hero.getHealth() <= 0) {
-            JOptionPane.showMessageDialog(null, "You have been defeated!");
-            hideBattleOptions();  // Göm knapparna när hjälten besegras
-            currentOpponent = null;
-            System.exit(0);  // Stänger spelet när hjälten är besegrad
+        if (opponent != null) {
+            // Uppdatera HP-informationen för både hjälten och motståndaren
+            String hpStatus = "Hero: " + hero.getName() + " - Health: " + hero.getHealth() + "\n" +
+                    "Opponent: " + opponent.getName() + " - Health: " + opponent.getHealth() + "\n";
+            battleStatusTextPane.setText(hpStatus);  // Visa HP överst
         }
+
+        // Kontrollera om hjälten är besegrad
+        if (hero.getHealth() <= 0) {
+            JOptionPane.showMessageDialog(null, "You have been defeated!");
+            hideBattleOptions();
+            currentOpponent = null;
+            System.exit(0);
+        }
+    }
+
+
+    // Lägg till stridslogg under HP-informationen
+    private void appendCombatLog(String combatLog) {
+        String currentText = battleStatusTextPane.getText();  // Hämta nuvarande text (HP status)
+        battleStatusTextPane.setText(currentText + "\n" + combatLog);  // Lägg till stridslogg under HP-status
     }
 
     // Uppdatera hjälteinformationen när striden är över
     private void updateHeroStatus(Hero hero) {
-        String heroStatus = "Hero: " + hero.getName() + " - Health: " + hero.getHealth();
-        battleStatusTextPane.setText(heroStatus);  // Visa bara hjälteinformationen i stridsstatusrutan
+        String heroStatus = "Hero: " + hero.getName() + " - Health: " + hero.getHealth() + " - Gold: " + hero.getCurrency();
+        battleStatusTextPane.setText(heroStatus);
+    }
+
+    // Generera stridslogg efter bådas attacker
+    private String showCombatLog(Player hero, Player opponent) {
+        if (hero.getHealth() < 0 || opponent.getHealth() < 0) {
+            return "";
+        } else {
+
+            return hero.getName() + " attacks " + opponent.getName() +
+                    " for " + hero.getDamage() + " damage ⚔️\n" +
+                    opponent.getName() + " attacks " + hero.getName() +
+                    " for " + opponent.getDamage() + " damage ⚔️";
+        }
+
     }
 
     // Inaktivera rörelseknappar
@@ -209,48 +228,11 @@ public class GUI {
         retreatButton.setEnabled(true);
     }
 
-    // Metod för att centrera text i JTextPane
+    // Centrera text i JTextPane
     private void centerText(JTextPane textPane) {
         StyledDocument doc = textPane.getStyledDocument();
         SimpleAttributeSet center = new SimpleAttributeSet();
         StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
         doc.setParagraphAttributes(0, doc.getLength(), center, false);
-    }
-
-    // SwingWorker för att hantera stridsrundor
-    private class BattleWorker extends SwingWorker<String, String> {
-        private final Hero hero;
-        private final Player opponent;
-
-        public BattleWorker(Hero hero, Player opponent) {
-            this.hero = hero;
-            this.opponent = opponent;
-        }
-
-        @Override
-        protected String doInBackground() throws Exception {
-            // Gör en runda av striden
-            return game.battleRound(hero, opponent);
-        }
-
-        @Override
-        protected void process(List<String> chunks) {
-            for (String message : chunks) {
-                battleStatusTextPane.setText(battleStatusTextPane.getText() + message);
-            }
-        }
-
-        @Override
-        protected void done() {
-            try {
-                String result = get();
-                publish(result);  // Publicera resultatet
-                Thread.sleep(500);  // Vänta 2.5 sekunder för nästa strid
-                enableBattleButtons();  // Återaktivera stridsknappar
-                updateBattleStatus(hero, opponent);  // Uppdatera status
-            } catch (InterruptedException | ExecutionException e) {
-                e.printStackTrace();  // Hantera undantag
-            }
-        }
     }
 }

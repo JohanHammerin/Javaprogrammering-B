@@ -17,16 +17,8 @@ public class Game {
 
     // Kontrollera om strid ska startas
     public boolean checkForBattle() {
-        return random.nextInt(10) < 1;  // 10% chans att starta en strid
+        return random.nextInt(100) + 1 < 10;  // 10% chans att starta en strid
     }
-
-    public void failedToRetreat(Player opponent) {
-        // Motståndarens attack efter misslyckad flykt
-        battleRound(opponent);
-    }
-
-
-
 
     // Skapa en fiende (Sheep för detta exempel)
     public Player createOpponent() {
@@ -34,48 +26,31 @@ public class Game {
     }
 
     // Stridslogik
-    public String battleRound(Hero hero, Player opponent) {
-        StringBuilder battleMessages = new StringBuilder();
-
+    public void battleRound(Hero hero, Player opponent) {
         // Hjälten attackerar
         opponent.setHealth(opponent.getHealth() - hero.getDamage());
-        battleMessages.append(hero.getName()).append(" attacks ").append(opponent.getName())
-                .append(" for ").append(hero.getDamage()).append(" damage. \n");
-
-
-        hero.setHasAttacked(true);
-        // Kontrollera om motståndaren är besegrad
-        if (opponent.getHealth() <= 0) {
-            battleMessages.append(opponent.getName()).append(" is defeated!");
-            hero.endBattle();  // Återställ hjälteattackstatus när striden är över
-            return battleMessages.toString();
-        }
 
         // Motståndaren attackerar hjälten
-        hero.setHealth(hero.getHealth() - opponent.getDamage());
-        battleMessages.append(opponent.getName()).append(" attacks ").append(hero.getName())
-                .append(" for ").append(opponent.getDamage()).append(" damage. \n");
-
-        // Kontrollera om hjälten är besegrad
-        if (hero.getHealth() <= 0) {
-            battleMessages.append(hero.getName()).append(" is defeated!");
+        if (opponent.getHealth() > 0) {
+            hero.setHealth(hero.getHealth() - opponent.getDamage());
         }
 
-        return battleMessages.toString();
+        // Kontrollera om striden är över och uppdatera status
+        if (hero.getHealth() <= 0) {
+            hero.setHealth(0);  // Sätt HP till 0 om hjälten besegras
+            hero.endBattle();  // Återställ hjälteattacksstatus när striden är över
+        } else if (opponent.getHealth() <= 0) {
+            opponent.setHealth(0);  // Sätt HP till 0 om motståndaren besegras
+            rewardForWinning(opponent);
+        }
     }
 
-    public String battleRound(Player opponent) {
-        StringBuilder battleMessages = new StringBuilder();
-        // Motståndaren attackerar hjälten
+    // Används för att hantera motståndarens attack mot hjälten
+    public void battleRound(Player opponent) {
         hero.setHealth(hero.getHealth() - opponent.getDamage());
-        battleMessages.append(opponent.getName()).append(" attacks ").append(hero.getName())
-                .append(" for ").append(opponent.getDamage()).append(" damage. \n");
+    }
 
-        // Kontrollera om hjälten är besegrad
-        if (hero.getHealth() <= 0) {
-            battleMessages.append(hero.getName()).append(" is defeated!");
-        }
-
-        return battleMessages.toString();
+    private void rewardForWinning(Player opponent) {
+        hero.setCurrency(hero.getCurrency() + opponent.getCurrency());
     }
 }

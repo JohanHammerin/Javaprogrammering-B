@@ -1,0 +1,22 @@
+-Knapp för att komma till townCentre
+    *Ska använda setPosition till (0,0,0,0)
+    *Ska använda setHealth(start-hp)
+        *
+    *JOptionPaneShowMessageDialog()
+
+-Fler monster
+    *Fisk
+        *100 hp
+        *2 attack
+        *1 currency
+    *Fiskmås
+
+-Skapa inventory knapp
+    *Skapa upp ett nytt fönster vid tryck
+    *Skapa ett rutnät 5*5
+    *
+
+
+-Knapp för affär
+    *Ska visas i townCentre (0,0,0,0)
+    *Ska gå att köpa armour

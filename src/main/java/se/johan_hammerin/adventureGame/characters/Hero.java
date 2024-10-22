@@ -44,19 +44,19 @@ public class Hero extends Player {
     private void moveInDirection(int positiveMove, int negativeMove, boolean isNorthSouth) {
         if (positiveMove == 1) {  // Positive movement
             if (isNorthSouth) {
-                if (south > 0) south--;
-                else north++;
+                if (getSouth() > 0) setSouth(getSouth() - 1);
+                else setNorth(getNorth() + 1);
             } else {
-                if (west > 0) west--;
-                else east++;
+                if (getWest() > 0) setWest(getWest() - 1);
+                else setEast(getEast() + 1);
             }
         } else if (negativeMove == 1) {  // Negative movement
             if (isNorthSouth) {
-                if (north > 0) north--;
-                else south++;
+                if (getNorth() > 0) setNorth(getNorth() - 1);
+                else setSouth(getSouth() + 1);
             } else {
-                if (east > 0) east--;
-                else west++;
+                if (getEast() > 0) setEast(getEast() - 1);
+                else setWest(getWest() + 1);
             }
         }
     }

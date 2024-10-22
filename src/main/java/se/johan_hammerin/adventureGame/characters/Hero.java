@@ -24,11 +24,11 @@ public class Hero extends Player {
 
     // Method to get the position as a string
     public String getPosition() {
-        return String.format("N%d.S%d.E%d.W%d", north, south, east, west);
+        return String.format("N%d.S%d.E%d.W%d", getNorth(), getSouth(), getEast(), getWest());
     }
 
     // Reset hero's position
-    private void resetPosition() {
+    public void resetPosition() {
         setNorth(0);
         setSouth(0);
         setEast(0);
@@ -71,9 +71,8 @@ public class Hero extends Player {
     }
 
     public void endBattle() {
-        this.hasAttacked = false;
+        setHasAttacked(false);
     }
-
 
     // Getters & Setters
     public int getNorth() {

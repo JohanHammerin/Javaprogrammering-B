@@ -12,19 +12,25 @@ public class Hero extends Player {
     private int east;
     private int west;
     private boolean hasAttacked;
+    private final int initialHealth;
 
     // Constructor
     public Hero(String name) {
         setName(name);
         setDamage(10);
-        setHealth(100);
-        setCurrency(5);
+        this.initialHealth = 100;
+        setHealth(initialHealth);
+        setCurrency(20);
         resetPosition();
     }
 
     // Method to get the position as a string
     public String getPosition() {
         return String.format("N%d.S%d.E%d.W%d", getNorth(), getSouth(), getEast(), getWest());
+    }
+
+    public void restoreHealth() {
+        setHealth(initialHealth);  // Återställ till det ursprungliga hälsovärdet
     }
 
     // Reset hero's position
@@ -64,9 +70,9 @@ public class Hero extends Player {
     // Exempel på logik som gör det svårare att fly om spelaren har attackerat
     public boolean checkForRetreat() {
         if (this.isHasAttacked()) {
-            return random.nextInt(100) < 30;  // 30% chans att fly efter attack
+            return random.nextInt(100) + 1 < 30;  // 30% chans att fly efter attack
         } else {
-            return random.nextInt(100) < 70;  // 70% chans att fly innan attack
+            return random.nextInt(100) + 1 < 70;  // 70% chans att fly innan attack
         }
     }
 

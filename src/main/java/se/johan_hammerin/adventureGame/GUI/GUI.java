@@ -48,7 +48,8 @@ public class GUI {
 
         attackButton = new JButton("Attack");
         retreatButton = new JButton("Retreat");
-        townCentreButton = new JButton("Town Centre"); // Skapa townCentreButton
+        townCentreButton = new JButton("Town Centre (25)"); // Skapa townCentreButton
+        updateTownCentreButton(hero); // Uppdatera Town Centre-knappen
 
         // Hantera attack-logik
         attackButton.addActionListener(_ -> {
@@ -74,7 +75,8 @@ public class GUI {
                     hideBattleOptions();
                     enableMovementButtons();
                     currentOpponent = null;
-                    showTownCentreButton(); // Visa townCentreButton efter striden
+                    updateTownCentreButton(hero); // Uppdatera Town Centre-knappen
+                    showTownCentreButton(); // Visa Town Centre-knappen igen efter strid
                 } else if (hero.getHealth() <= 0) {
                     JOptionPane.showMessageDialog(null, "You have been defeated!");
                     updateHeroStatus(hero);
@@ -86,12 +88,13 @@ public class GUI {
 
         retreatButton.addActionListener(_ -> {
             if (hero.checkForRetreat()) {
-                JOptionPane.showMessageDialog(null, "Du lyckades fly!");
                 hero.endBattle();  // Återställ hjälteattacksstatus
                 hideBattleOptions();
                 enableMovementButtons();
                 updateHeroStatus(hero);
-                showTownCentreButton(); // Visa townCentreButton efter flykt
+                updateTownCentreButton(hero); // Uppdatera Town Centre-knappen efter flykt
+                showTownCentreButton(); // Visa Town Centre-knappen igen efter flykt
+
             } else {
                 JOptionPane.showMessageDialog(null, "Du lyckades inte fly!\n" + currentOpponent.getClass().getSimpleName() + " attackerade dig!");
                 game.battleRound(currentOpponent);  // Motståndaren attackerar
@@ -99,14 +102,17 @@ public class GUI {
             }
         });
 
-        townCentreButton.addActionListener(e -> {
-            JOptionPane.showMessageDialog(frame, "Welcome to the Town Centre!");
-            hero.setHealth(100); // Återställ hälsan till 100
-            updateHeroStatus(hero); // Uppdaterar hjältestatusen'
-            hero.resetPosition();
-            System.out.println(hero.getNorth());
-            positionTextPane.setText(hero.getPosition());
-            
+        townCentreButton.addActionListener(_ -> {
+            if(game.returnToTownCentre(hero)) {
+                JOptionPane.showMessageDialog(frame, "Welcome to the Town Centre!");
+                hero.restoreHealth(); // Återställ hälsan till 100
+                updateHeroStatus(hero); // Uppdaterar hjältestatusen
+                hero.resetPosition();
+                positionTextPane.setText(hero.getPosition());
+            } else {
+                JOptionPane.showMessageDialog(null, "Lågt saldo.");
+            }
+            updateTownCentreButton(hero); // Uppdatera Town Centre-knappen efter försök att återvända
         });
 
         positionTextPane = new JTextPane();
@@ -122,10 +128,6 @@ public class GUI {
         centerPanel.add(battleStatusTextPane);
 
         panel.add(centerPanel, BorderLayout.CENTER);
-
-
-
-
 
         // Lägga till Town Centre-knappen i sydpanelen
         JPanel bottomPanel = new JPanel();
@@ -145,6 +147,12 @@ public class GUI {
         updateHeroStatus(hero);
     }
 
+    // Uppdatera statusen för Town Centre-knappen
+    private void updateTownCentreButton(Hero hero) {
+        // Inaktivera knappen om hjälten inte har råd
+        townCentreButton.setEnabled(hero.getCurrency() >= 25); // Aktivera knappen om hjälten har råd
+    }
+
     private void updatePosition(Hero hero, int north, int south, int east, int west) {
         hero.moveHero(north, south, east, west); // Rörelse
         positionTextPane.setText(hero.getPosition()); // Uppdaterar positionen på skärmen
@@ -157,9 +165,10 @@ public class GUI {
             updateBattleStatus(hero, currentOpponent);
         } else {
             hideBattleOptions();
-            showTownCentreButton(); // Visar townCentreButton när det inte pågår någon strid
+            updateTownCentreButton(hero); // Uppdatera Town Centre-knappen efter rörelse
         }
     }
+
     // Visa knapparna för strid
     private void showBattleOptions() {
         if (!centerPanel.isAncestorOf(attackButton)) {
@@ -178,13 +187,6 @@ public class GUI {
         centerPanel.remove(retreatButton);
         centerPanel.revalidate();
         centerPanel.repaint();
-    }
-
-    // Visa townCentre-knappen
-    private void showTownCentreButton() {
-        centerPanel.add(townCentreButton);
-
-
     }
 
     // Göm townCentre-knappen
@@ -220,6 +222,14 @@ public class GUI {
     private void updateHeroStatus(Hero hero) {
         String heroStatus = "Hero: " + hero.getName() + " - Health: " + hero.getHealth() + " - Gold: " + hero.getCurrency();
         battleStatusTextPane.setText(heroStatus);
+        updateTownCentreButton(hero); // Uppdatera Town Centre-knappen efter uppdatering av hjältestatus
+    }
+
+    private void centerText(JTextPane textPane) {
+        StyledDocument doc = textPane.getStyledDocument();
+        SimpleAttributeSet center = new SimpleAttributeSet();
+        StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
+        doc.setParagraphAttributes(0, doc.getLength(), center, false);
     }
 
     // Generera stridslogg efter bådas attacker
@@ -234,7 +244,6 @@ public class GUI {
         }
     }
 
-    // Inaktivera rörelseknappar
     private void disableMovementButtons() {
         northButton.setEnabled(false);
         southButton.setEnabled(false);
@@ -242,7 +251,6 @@ public class GUI {
         westButton.setEnabled(false);
     }
 
-    // Aktivera rörelseknappar
     private void enableMovementButtons() {
         northButton.setEnabled(true);
         southButton.setEnabled(true);
@@ -250,23 +258,22 @@ public class GUI {
         westButton.setEnabled(true);
     }
 
-    // Inaktivera stridsknappar
     private void disableBattleButtons() {
         attackButton.setEnabled(false);
         retreatButton.setEnabled(false);
     }
 
-    // Aktivera stridsknappar
     private void enableBattleButtons() {
         attackButton.setEnabled(true);
         retreatButton.setEnabled(true);
     }
 
-    // Centrera text i JTextPane
-    private void centerText(JTextPane textPane) {
-        StyledDocument doc = textPane.getStyledDocument();
-        SimpleAttributeSet center = new SimpleAttributeSet();
-        StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
-        doc.setParagraphAttributes(0, doc.getLength(), center, false);
+    private void showTownCentreButton() {
+        if (!centerPanel.isAncestorOf(townCentreButton)) {
+            centerPanel.add(townCentreButton);  // Lägg till knappen tillbaka till panelen
+            centerPanel.revalidate();
+            centerPanel.repaint();
+        }
     }
+
 }

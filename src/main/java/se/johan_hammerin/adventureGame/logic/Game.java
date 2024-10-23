@@ -1,8 +1,6 @@
 package se.johan_hammerin.adventureGame.logic;
 
-import se.johan_hammerin.adventureGame.characters.Hero;
-import se.johan_hammerin.adventureGame.characters.Player;
-import se.johan_hammerin.adventureGame.characters.Sheep;
+import se.johan_hammerin.adventureGame.characters.*;
 
 import java.util.Random;
 
@@ -22,18 +20,24 @@ public class Game {
 
     // Skapa en fiende (Sheep för detta exempel)
     public Player createOpponent() {
-        return new Sheep();  // Skapa en ny Sheep
+        int randomOpponent = random.nextInt(100) + 1;
+        //20% chans för lejon
+        if (randomOpponent >= 80) return new Lion();
+            //20% chans för fisk
+        else if (randomOpponent <= 20) return new Fish();
+            //60% för sheep
+        else return new Sheep();
+
+
     }
 
     // Stridslogik
     public void battleRound(Hero hero, Player opponent) {
         // Hjälten attackerar
         opponent.setHealth(opponent.getHealth() - hero.getDamage());
-
         // Motståndaren attackerar hjälten
-        if (opponent.getHealth() > 0) {
-            hero.setHealth(hero.getHealth() - opponent.getDamage());
-        }
+        hero.setHealth(hero.getHealth() - opponent.getDamage());
+
 
         // Kontrollera om striden är över och uppdatera status
         if (hero.getHealth() <= 0) {
@@ -43,6 +47,15 @@ public class Game {
             opponent.setHealth(0);  // Sätt HP till 0 om motståndaren besegras
             rewardForWinning(opponent);
         }
+    }
+
+
+    public boolean returnToTownCentre(Player hero) {
+        if (hero.getCurrency() >= 25) {
+            hero.setCurrency(hero.getCurrency() - 25);
+            return true;
+        }
+        return false;
     }
 
     // Används för att hantera motståndarens attack mot hjälten

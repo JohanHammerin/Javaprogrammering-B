@@ -3,6 +3,7 @@ package se.johan_hammerin.adventureGame.GUI;
 import javax.swing.*;
 import javax.swing.text.*;
 import java.awt.*;
+
 import se.johan_hammerin.adventureGame.characters.Hero;
 import se.johan_hammerin.adventureGame.logic.Game;
 import se.johan_hammerin.adventureGame.characters.Player;

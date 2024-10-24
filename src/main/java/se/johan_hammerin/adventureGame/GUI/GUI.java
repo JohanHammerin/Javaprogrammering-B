@@ -84,6 +84,7 @@ public class GUI {
 
         retreatButton.addActionListener(_ -> {
             if (hero.checkForRetreat()) {
+                JOptionPane.showMessageDialog(null, "Du lyckades fly!");
                 hero.endBattle();
                 hideBattleOptions();
                 enableMovementButtons();

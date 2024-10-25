@@ -35,10 +35,23 @@ public class GUI {
 
         JPanel panel = new JPanel(new BorderLayout());
 
+        // Skapa riktningsknappar och ställ in större storlek och font
         northButton = new JButton("North");
         southButton = new JButton("South");
         eastButton = new JButton("East");
         westButton = new JButton("West");
+
+        Font buttonFont = new Font("Arial", Font.BOLD, 20); // Större font för knapparna
+        Dimension buttonSize = new Dimension(100, 50); // Större dimensioner för knapparna
+
+        northButton.setFont(buttonFont);
+        northButton.setPreferredSize(buttonSize);
+        southButton.setFont(buttonFont);
+        southButton.setPreferredSize(buttonSize);
+        eastButton.setFont(buttonFont);
+        eastButton.setPreferredSize(buttonSize);
+        westButton.setFont(buttonFont);
+        westButton.setPreferredSize(buttonSize);
 
         // Skapa en separat panel för riktningsknapparna
         JPanel movementPanel = new JPanel(new BorderLayout());

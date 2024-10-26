@@ -1,4 +1,8 @@
--Kommentera allt som behöver kommenteras
+-Heals
+    *gör det random att få
+    *olika stor chans att få heals
+    *allt sker i game klassen
+
 
 -Skapa inventory knapp
     *Skapa upp ett nytt fönster vid tryck

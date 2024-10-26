@@ -21,11 +21,13 @@ public class Game {
     // Skapa en fiende (Sheep för detta exempel)
     public Player createOpponent() {
         int randomOpponent = random.nextInt(100) + 1;
-        //20% chans för lejon
-        if (randomOpponent >= 80) return new Lion();
+        //10% chans för lejon
+        if (randomOpponent >= 90) return new Lion();
             //20% chans för fisk
         else if (randomOpponent <= 20) return new Fish();
-            //60% för sheep
+            //20% för doktor
+        else if(randomOpponent >= 70) return new Doctor();
+
         else return new Sheep();
 
 

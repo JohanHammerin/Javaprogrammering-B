@@ -47,6 +47,6 @@ public abstract class Player {
 
     @Override
     public String toString() {
-        return String.format("Player{name='%s', health=%d, damage=%d}", name, health, damage);
+        return String.format("Player{name='%s', health=%d, damage=%d}", getName(), getHealth(), getDamage());
     }
 }

@@ -2,6 +2,7 @@ package se.johan_hammerin.adventureGame.logic;
 
 import se.johan_hammerin.adventureGame.characters.*;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Game {
@@ -29,8 +30,6 @@ public class Game {
         else if(randomOpponent >= 70) return new Doctor();
 
         else return new Sheep();
-
-
     }
 
     // Stridslogik
@@ -40,7 +39,6 @@ public class Game {
         // Motståndaren attackerar hjälten
         hero.setHealth(hero.getHealth() - opponent.getDamage());
 
-
         // Kontrollera om striden är över och uppdatera status
         if (hero.getHealth() <= 0) {
             hero.setHealth(0);  // Sätt HP till 0 om hjälten besegras
@@ -48,9 +46,9 @@ public class Game {
         } else if (opponent.getHealth() <= 0) {
             opponent.setHealth(0);  // Sätt HP till 0 om motståndaren besegras
             rewardForWinning(opponent);
+            addDefeatedOpponents(opponent);
         }
     }
-
 
     public boolean returnToTownCentre(Player hero) {
         if (hero.getCurrency() >= 25) {
@@ -67,5 +65,9 @@ public class Game {
 
     private void rewardForWinning(Player opponent) {
         hero.setCurrency(hero.getCurrency() + opponent.getCurrency());
+    }
+
+    private void addDefeatedOpponents(Player opponent) {
+        hero.addDefeatedOpponent(opponent);  // Lägg till motståndaren i hjältes lista över besegrade motståndare
     }
 }

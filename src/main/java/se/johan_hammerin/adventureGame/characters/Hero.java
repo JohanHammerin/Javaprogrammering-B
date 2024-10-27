@@ -1,9 +1,10 @@
 package se.johan_hammerin.adventureGame.characters;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Hero extends Player {
-    //Random
+    // Random
     private static final Random random = new Random();
 
     // Attributes
@@ -13,6 +14,7 @@ public class Hero extends Player {
     private int west;
     private boolean hasAttacked;
     private final int initialHealth;
+    private ArrayList<Player> defeatedOpponents;
 
     // Constructor
     public Hero(String name) {
@@ -22,6 +24,7 @@ public class Hero extends Player {
         setHealth(initialHealth);
         setCurrency(20);
         resetPosition();
+        defeatedOpponents = new ArrayList<>();  // Initiera listan över besegrade motståndare
     }
 
     // Method to get the position as a string
@@ -119,5 +122,14 @@ public class Hero extends Player {
 
     public void setHasAttacked(boolean hasAttacked) {
         this.hasAttacked = hasAttacked;
+    }
+
+    public ArrayList<Player> getDefeatedOpponents() {
+        return defeatedOpponents;
+    }
+
+    // Ändra till en metod som lägger till en besegrad motståndare
+    public void addDefeatedOpponent(Player opponent) {
+        defeatedOpponents.add(opponent);
     }
 }

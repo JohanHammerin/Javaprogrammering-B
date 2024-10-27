@@ -1,13 +1,12 @@
--Heals
-    *gör det random att få
-    *olika stor chans att få heals
-    *allt sker i game klassen
-
+-Score-kort
+    *Skapa en arrayList för alla motståndare
+    *visa alla motståndare man besegrat
+    *score x multipier grej
+    *avsluta spel när man fått se sitt resultat
 
 -Skapa inventory knapp
     *Skapa upp ett nytt fönster vid tryck
     *Skapa ett rutnät 5*5
-    *
 
 
 -Knapp för affär

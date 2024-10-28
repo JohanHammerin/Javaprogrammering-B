@@ -79,7 +79,6 @@ public class GUI {
                 appendCombatLog(showCombatLog(hero, currentOpponent));
 
                 if (currentOpponent != null && currentOpponent.getHealth() <= 0) {
-                    System.out.println(hero.getDefeatedOpponents());
                     JOptionPane.showMessageDialog(null, currentOpponent.getName() + " defeated!");
                     updateHeroStatus(hero);
                     hideBattleOptions();
@@ -208,6 +207,7 @@ public class GUI {
             JOptionPane.showMessageDialog(null, "You have been defeated!");
             hideBattleOptions();
             currentOpponent = null;
+            JOptionPane.showMessageDialog(null, "Defeated enemies:\n" + game.printDefeatedEnemies());
             System.exit(0);
         }
     }

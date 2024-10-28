@@ -2,7 +2,8 @@ package se.johan_hammerin.adventureGame.logic;
 
 import se.johan_hammerin.adventureGame.characters.*;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 public class Game {
@@ -46,7 +47,7 @@ public class Game {
         } else if (opponent.getHealth() <= 0) {
             opponent.setHealth(0);  // Sätt HP till 0 om motståndaren besegras
             rewardForWinning(opponent);
-            addDefeatedOpponents(opponent);
+            hero.addDefeatedOpponent(opponent);
         }
     }
 
@@ -67,7 +68,21 @@ public class Game {
         hero.setCurrency(hero.getCurrency() + opponent.getCurrency());
     }
 
-    private void addDefeatedOpponents(Player opponent) {
-        hero.addDefeatedOpponent(opponent);  // Lägg till motståndaren i hjältes lista över besegrade motståndare
+
+
+
+    public StringBuilder printDefeatedEnemies() {
+        StringBuilder returnString = new StringBuilder();
+        HashMap<String, Integer> defeatedCount = hero.getDefeatedEnemyCount();
+
+        if (defeatedCount.isEmpty()) {
+            return returnString.append("Inga fiender besegrade :(");
+        } else {
+            for (Map.Entry<String, Integer> entry : defeatedCount.entrySet()) {
+                returnString.append(entry.getValue()).append(" ").append(entry.getKey()).append("\n");
+            }
+        }
+        return returnString;
     }
+
 }

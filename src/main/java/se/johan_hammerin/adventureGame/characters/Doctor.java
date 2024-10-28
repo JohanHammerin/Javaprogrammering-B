@@ -1,6 +1,6 @@
 package se.johan_hammerin.adventureGame.characters;
 
-public class Doctor extends Player{
+public class Doctor extends Player {
 
     // Constructor
     public Doctor() {

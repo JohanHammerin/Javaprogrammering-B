@@ -1,6 +1,6 @@
 package se.johan_hammerin.adventureGame.characters;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 public class Hero extends Player {
@@ -14,7 +14,7 @@ public class Hero extends Player {
     private int west;
     private boolean hasAttacked;
     private final int initialHealth;
-    private ArrayList<Player> defeatedOpponents;
+    private final HashMap<String, Integer> defeatedEnemyCount = new HashMap<>(); // Lägger till en HashMap för besegrade fiender
 
     // Constructor
     public Hero(String name) {
@@ -24,7 +24,6 @@ public class Hero extends Player {
         setHealth(initialHealth);
         setCurrency(20);
         resetPosition();
-        defeatedOpponents = new ArrayList<>();  // Initiera listan över besegrade motståndare
     }
 
     // Method to get the position as a string
@@ -124,12 +123,15 @@ public class Hero extends Player {
         this.hasAttacked = hasAttacked;
     }
 
-    public ArrayList<Player> getDefeatedOpponents() {
-        return defeatedOpponents;
+
+    // Lägg till besegrad fiende och uppdatera räknaren
+    public void addDefeatedOpponent(Player opponent) {
+        String opponentType = opponent.getClass().getSimpleName();
+        defeatedEnemyCount.put(opponentType, defeatedEnemyCount.getOrDefault(opponentType, 0) + 1);
     }
 
-    // Ändra till en metod som lägger till en besegrad motståndare
-    public void addDefeatedOpponent(Player opponent) {
-        defeatedOpponents.add(opponent);
+    // Returnera listan med antalet besegrade fiender för varje typ
+    public HashMap<String, Integer> getDefeatedEnemyCount() {
+        return defeatedEnemyCount;
     }
 }

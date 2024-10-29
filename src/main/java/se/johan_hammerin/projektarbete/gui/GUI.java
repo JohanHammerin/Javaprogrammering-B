@@ -22,7 +22,6 @@ public class GUI {
     private JButton southButton;
     private JButton eastButton;
     private JButton westButton;
-    private JButton townCentreButton;
     // Attribut
     private Game game;
     private Entity currentOpponent;
@@ -67,8 +66,6 @@ public class GUI {
 
         attackButton = new JButton("Attack");
         retreatButton = new JButton("Retreat");
-        townCentreButton = new JButton("Town Centre (25)");
-        updateTownCentreButton(hero);
 
 
         attackButton.addActionListener(_ -> {
@@ -84,8 +81,6 @@ public class GUI {
                     hideBattleOptions();
                     enableMovementButtons();
                     currentOpponent = null;
-                    updateTownCentreButton(hero);
-                    showTownCentreButton();
                 } else if (hero.getHealth() <= 0) {
                     JOptionPane.showMessageDialog(null, "You have been defeated!");
                     updateHeroStatus(hero);
@@ -102,8 +97,6 @@ public class GUI {
                 hideBattleOptions();
                 enableMovementButtons();
                 updateHeroStatus(hero);
-                updateTownCentreButton(hero);
-                showTownCentreButton();
             } else {
                 JOptionPane.showMessageDialog(null, "Du lyckades inte fly!\n" + currentOpponent.getClass().getSimpleName() + " attackerade dig!");
                 game.battleRound(currentOpponent);
@@ -111,18 +104,6 @@ public class GUI {
             }
         });
 
-        townCentreButton.addActionListener(_ -> {
-            if (game.returnToTownCentre(hero)) {
-                JOptionPane.showMessageDialog(frame, "Welcome to the Town Centre!");
-                hero.restoreHealth();
-                updateHeroStatus(hero);
-                hero.resetPosition();
-                positionTextPane.setText(hero.getPosition());
-            } else {
-                JOptionPane.showMessageDialog(null, "Lågt saldo.");
-            }
-            updateTownCentreButton(hero);
-        });
 
         positionTextPane = new JTextPane();
         positionTextPane.setText(hero.getPosition());
@@ -136,8 +117,7 @@ public class GUI {
         battleStatusTextPane.setFont(new Font("Arial", Font.BOLD, 14));
         centerPanel.add(battleStatusTextPane);
 
-        // Lägg till Town Centre-knappen i centerPanel
-        centerPanel.add(townCentreButton);
+
 
         panel.add(centerPanel, BorderLayout.CENTER);
 
@@ -154,9 +134,7 @@ public class GUI {
         updateHeroStatus(hero);
     }
 
-    private void updateTownCentreButton(Hero hero) {
-        townCentreButton.setEnabled(hero.getCurrency() >= 25);
-    }
+
 
     private void updatePosition(Hero hero, int north, int south, int east, int west) {
         hero.moveHero(north, south, east, west);
@@ -166,11 +144,9 @@ public class GUI {
             currentOpponent = game.createOpponent();
             showBattleOptions();
             disableMovementButtons();
-            hideTownCentreButton();
             updateBattleStatus(hero, currentOpponent);
         } else {
             hideBattleOptions();
-            updateTownCentreButton(hero);
         }
     }
 
@@ -192,9 +168,7 @@ public class GUI {
         centerPanel.repaint();
     }
 
-    private void hideTownCentreButton() {
-        centerPanel.remove(townCentreButton);
-    }
+
 
     private void updateBattleStatus(Hero hero, Entity opponent) {
         if (opponent != null) {
@@ -207,8 +181,7 @@ public class GUI {
             JOptionPane.showMessageDialog(null, "You have been defeated!");
             hideBattleOptions();
             currentOpponent = null;
-            JOptionPane.showMessageDialog(null, "Defeated enemies:\n" + game.printDefeatedEnemies() + "\nScore: " +
-                    game.getScore());
+
             System.exit(0);
         }
     }
@@ -219,9 +192,8 @@ public class GUI {
     }
 
     private void updateHeroStatus(Hero hero) {
-        String heroStatus = hero.getName() + " - Health: " + hero.getHealth() + " - Gold: " + hero.getCurrency();
+        String heroStatus = hero.getName() + " - Health: " + hero.getHealth();
         battleStatusTextPane.setText(heroStatus);
-        updateTownCentreButton(hero);
     }
 
     private void centerText(JTextPane textPane) {
@@ -266,11 +238,5 @@ public class GUI {
         retreatButton.setEnabled(true);
     }
 
-    private void showTownCentreButton() {
-        if (!centerPanel.isAncestorOf(townCentreButton)) {
-            centerPanel.add(townCentreButton);
-            centerPanel.revalidate();
-            centerPanel.repaint();
-        }
-    }
+
 }

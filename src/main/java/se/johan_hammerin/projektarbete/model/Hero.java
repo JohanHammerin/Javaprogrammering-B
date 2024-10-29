@@ -2,7 +2,6 @@ package se.johan_hammerin.projektarbete.model;
 
 import java.util.HashMap;
 import java.util.Random;
-import se.johan_hammerin.projektarbete.logic.Direction;
 
 public class Hero extends Entity {
     // Random
@@ -14,14 +13,11 @@ public class Hero extends Entity {
     private int east;
     private int west;
     private boolean hasAttacked;
-    private final int initialHealth;
-    private final HashMap<String, Integer> defeatedEnemyCount = new HashMap<>();
+    private final HashMap<String, Integer> defeatedEnemyCount = new HashMap<>(); // Lägger till en HashMap för besegrade fiender
 
     // Constructor
     public Hero() {
         super("Hero", 12, 3);
-        this.initialHealth = 12;
-        setHealth(initialHealth);
         resetPosition();
     }
 
@@ -30,9 +26,6 @@ public class Hero extends Entity {
         return String.format("N%d.S%d.E%d.W%d", getNorth(), getSouth(), getEast(), getWest());
     }
 
-    public void restoreHealth() {
-        setHealth(initialHealth);  // Återställ till det ursprungliga hälsovärdet
-    }
 
     // Reset hero's position
     public void resetPosition() {
@@ -43,55 +36,38 @@ public class Hero extends Entity {
     }
 
     // Move the hero
-    public void moveHero(Direction northSouth, Direction eastWest) {
-        moveInDirection(northSouth);
-        moveInDirection(eastWest);
+    public void moveHero(int northMove, int southMove, int eastMove, int westMove) {
+        moveInDirection(northMove, southMove, true);
+        moveInDirection(eastMove, westMove, false);
     }
 
-    public void moveHero(Direction direction) {
-        moveInDirection(direction);
-    }
-
-    private void moveInDirection(Direction direction) {
-        if (direction == null) {
-            return;  // Gör ingenting om riktningen är null
-        }
-
-        switch (direction) {
-            case NORTH:
-                if (getSouth() > 0) {
-                    setSouth(getSouth() - 1);
-                } else {
-                    setNorth(getNorth() + 1);
-                }
-                break;
-            case SOUTH:
-                if (getNorth() > 0) {
-                    setNorth(getNorth() - 1);
-                } else {
-                    setSouth(getSouth() + 1);
-                }
-                break;
-            case EAST:
-                if (getWest() > 0) {
-                    setWest(getWest() - 1);
-                } else {
-                    setEast(getEast() + 1);
-                }
-                break;
-            case WEST:
-                if (getEast() > 0) {
-                    setEast(getEast() - 1);
-                } else {
-                    setWest(getWest() + 1);
-                }
-                break;
+    private void moveInDirection(int positiveMove, int negativeMove, boolean isNorthSouth) {
+        if (positiveMove == 1) {
+            if (isNorthSouth) {
+                if (getSouth() > 0) setSouth(getSouth() - 1);
+                else setNorth(getNorth() + 1);
+            } else {
+                if (getWest() > 0) setWest(getWest() - 1);
+                else setEast(getEast() + 1);
+            }
+        } else if (negativeMove == 1) {
+            if (isNorthSouth) {
+                if (getNorth() > 0) setNorth(getNorth() - 1);
+                else setSouth(getSouth() + 1);
+            } else {
+                if (getEast() > 0) setEast(getEast() - 1);
+                else setWest(getWest() + 1);
+            }
         }
     }
 
     // Exempel på logik som gör det svårare att fly om spelaren har attackerat
     public boolean checkForRetreat() {
-        return random.nextInt(100) + 1 <= (isHasAttacked() ? 20 : 70);
+        if (this.isHasAttacked()) {
+            return random.nextInt(100) + 1 <= 20;  // 20% chans att fly efter attack
+        } else {
+            return random.nextInt(100) + 1 <= 70;  // 70% chans att fly innan attack
+        }
     }
 
     public void endBattle() {
@@ -139,9 +115,11 @@ public class Hero extends Entity {
         this.hasAttacked = hasAttacked;
     }
 
+
     // Lägg till besegrad fiende och uppdatera räknaren
     public void addDefeatedOpponent(Entity opponent) {
         String opponentType = opponent.getClass().getSimpleName();
         defeatedEnemyCount.put(opponentType, defeatedEnemyCount.getOrDefault(opponentType, 0) + 1);
     }
+
 }

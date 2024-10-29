@@ -65,8 +65,9 @@ public class Game {
     }
 
     private void rewardForWinning(Player opponent) {
-        hero.setCurrency(hero.getCurrency() + opponent.getCurrency());
-    }
+            hero.setCurrency(hero.getCurrency() + opponent.getCurrency());
+        }
+
 
 
 

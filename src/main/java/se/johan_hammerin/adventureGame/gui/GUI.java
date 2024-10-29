@@ -1,4 +1,4 @@
-package se.johan_hammerin.adventureGame.GUI;
+package se.johan_hammerin.adventureGame.gui;
 
 import javax.swing.*;
 import javax.swing.text.*;

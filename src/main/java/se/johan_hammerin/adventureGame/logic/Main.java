@@ -1,7 +1,7 @@
 package se.johan_hammerin.adventureGame.logic;
 
 import se.johan_hammerin.adventureGame.characters.Hero;
-import se.johan_hammerin.adventureGame.GUI.GUI;
+import se.johan_hammerin.adventureGame.gui.GUI;
 
 public class Main {
     public static void main(String[] args) {

@@ -131,7 +131,7 @@ public class GUI {
 
         battleStatusTextPane = new JTextPane();
         battleStatusTextPane.setEditable(false);
-        battleStatusTextPane.setFont(new Font("Arial", Font.PLAIN, 14));
+        battleStatusTextPane.setFont(new Font("Arial", Font.BOLD, 14));
         centerPanel.add(battleStatusTextPane);
 
         // Lägg till Town Centre-knappen i centerPanel

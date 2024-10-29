@@ -72,9 +72,6 @@ public class GUI {
             if (currentOpponent != null) {
                 disableBattleButtons();
                 game.battleRound(hero, currentOpponent);
-                if (currentOpponent.getHealth() > 0) {
-                    game.battleRound(currentOpponent);
-                }
                 updateBattleStatus(hero, currentOpponent);
                 appendCombatLog(showCombatLog(hero, currentOpponent));
 

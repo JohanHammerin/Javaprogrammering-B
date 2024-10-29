@@ -22,7 +22,7 @@ public class Hero extends Player {
         setDamage(10);
         this.initialHealth = 100;
         setHealth(initialHealth);
-        setCurrency(20);
+        setCurrency(0);
         resetPosition();
     }
 

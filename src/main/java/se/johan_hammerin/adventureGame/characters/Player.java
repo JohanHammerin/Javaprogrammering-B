@@ -1,12 +1,18 @@
 package se.johan_hammerin.adventureGame.characters;
 
-
 public abstract class Player {
     private String name;
     private int health;
     private int damage;
     private int currency;
 
+    // Constructor
+    protected Player(String name, int health, int damage, int currency) {
+        setName(name);
+        setHealth(health);
+        setDamage(damage);
+        setCurrency(currency);
+    }
 
     // Getters & Setters
     public String getName() {
@@ -33,20 +39,16 @@ public abstract class Player {
         this.damage = damage;
     }
 
-
     public int getCurrency() {
-        return this.currency;
+        return currency;
     }
 
     public void setCurrency(int currency) {
-        if (currency < 0) {
-            currency = 0;
-        }
-        this.currency = currency;
+        this.currency = Math.max(currency, 0);
     }
 
     @Override
     public String toString() {
-        return String.format("Player{name='%s', health=%d, damage=%d}", getName(), getHealth(), getDamage());
+        return String.format("Player{name='%s', health=%d, damage=%d}", name, health, damage);
     }
 }

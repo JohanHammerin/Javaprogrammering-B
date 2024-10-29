@@ -2,11 +2,8 @@ package se.johan_hammerin.adventureGame.characters;
 
 public class Lion extends Player {
 
-    //Constructor
+    // Constructor
     public Lion() {
-        setName("Lion");
-        setDamage(10);
-        setHealth(50);
-        setCurrency(25);
+        super("Lion", 50, 10, 25);
     }
 }

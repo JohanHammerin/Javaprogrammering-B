@@ -68,6 +68,7 @@ public class GUI {
         townCentreButton = new JButton("Town Centre (25)");
         updateTownCentreButton(hero);
 
+
         attackButton.addActionListener(_ -> {
             if (currentOpponent != null) {
                 disableBattleButtons();

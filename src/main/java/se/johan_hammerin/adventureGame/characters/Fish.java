@@ -4,9 +4,6 @@ public class Fish extends Player {
 
     // Constructor
     public Fish() {
-        setName("Fish");
-        setDamage(3);
-        setHealth(15);
-        setCurrency(2);
+        super("Fish", 15, 3, 2);
     }
 }

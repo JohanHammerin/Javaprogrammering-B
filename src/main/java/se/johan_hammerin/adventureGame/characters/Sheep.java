@@ -4,9 +4,6 @@ public class Sheep extends Player {
 
     // Constructor
     public Sheep() {
-        setName("Sheep");
-        setDamage(4);
-        setHealth(25);
-        setCurrency(5);
+        super("Sheep", 25, 4, 5);
     }
 }

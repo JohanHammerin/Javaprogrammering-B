@@ -4,82 +4,72 @@ import java.util.HashMap;
 import java.util.Random;
 
 public class Hero extends Player {
-    // Random
     private static final Random random = new Random();
 
-    // Attributes
     private int north;
     private int south;
     private int east;
     private int west;
     private boolean hasAttacked;
     private final int initialHealth;
-    private final HashMap<String, Integer> defeatedEnemyCount = new HashMap<>(); // Lägger till en HashMap för besegrade fiender
+    private final HashMap<String, Integer> defeatedEnemyCount = new HashMap<>();
 
     // Constructor
     public Hero(String name) {
-        setName(name);
-        setDamage(10);
+        super(name, 100, 10, 0);
         this.initialHealth = 100;
-        setHealth(initialHealth);
-        setCurrency(0);
         resetPosition();
     }
 
-    // Method to get the position as a string
     public String getPosition() {
-        return String.format("N%d.S%d.E%d.W%d", getNorth(), getSouth(), getEast(), getWest());
+        return String.format("N%d.S%d.E%d.W%d", north, south, east, west);
     }
 
     public void restoreHealth() {
-        setHealth(initialHealth);  // Återställ till det ursprungliga hälsovärdet
+        setHealth(initialHealth);
     }
 
-    // Reset hero's position
     public void resetPosition() {
-        setNorth(0);
-        setSouth(0);
-        setEast(0);
-        setWest(0);
+        north = south = east = west = 0;
     }
 
-    // Move the hero
     public void moveHero(int northMove, int southMove, int eastMove, int westMove) {
         moveInDirection(northMove, southMove, true);
         moveInDirection(eastMove, westMove, false);
     }
 
     private void moveInDirection(int positiveMove, int negativeMove, boolean isNorthSouth) {
-        if (positiveMove == 1) {  // Positive movement
+        if (positiveMove == 1) {
             if (isNorthSouth) {
-                if (getSouth() > 0) setSouth(getSouth() - 1);
-                else setNorth(getNorth() + 1);
+                setNorth(getSouth() > 0 ? south - 1 : north + 1);
             } else {
-                if (getWest() > 0) setWest(getWest() - 1);
-                else setEast(getEast() + 1);
+                setEast(getWest() > 0 ? west - 1 : east + 1);
             }
-        } else if (negativeMove == 1) {  // Negative movement
+        } else if (negativeMove == 1) {
             if (isNorthSouth) {
-                if (getNorth() > 0) setNorth(getNorth() - 1);
-                else setSouth(getSouth() + 1);
+                setSouth(getNorth() > 0 ? north - 1 : south + 1);
             } else {
-                if (getEast() > 0) setEast(getEast() - 1);
-                else setWest(getWest() + 1);
+                setWest(getEast() > 0 ? east - 1 : west + 1);
             }
         }
     }
 
-    // Exempel på logik som gör det svårare att fly om spelaren har attackerat
     public boolean checkForRetreat() {
-        if (this.isHasAttacked()) {
-            return random.nextInt(100) + 1 <= 20;  // 20% chans att fly efter attack
-        } else {
-            return random.nextInt(100) + 1 <= 70;  // 70% chans att fly innan attack
-        }
+        int chance = hasAttacked ? 20 : 70;
+        return random.nextInt(100) < chance;
     }
 
     public void endBattle() {
-        setHasAttacked(false);
+        hasAttacked = false;
+    }
+
+    public void addDefeatedOpponent(Player opponent) {
+        String opponentType = opponent.getClass().getSimpleName();
+        defeatedEnemyCount.put(opponentType, defeatedEnemyCount.getOrDefault(opponentType, 0) + 1);
+    }
+
+    public HashMap<String, Integer> getDefeatedEnemyCount() {
+        return defeatedEnemyCount;
     }
 
     // Getters & Setters
@@ -113,25 +103,5 @@ public class Hero extends Player {
 
     public void setWest(int west) {
         this.west = west;
-    }
-
-    public boolean isHasAttacked() {
-        return hasAttacked;
-    }
-
-    public void setHasAttacked(boolean hasAttacked) {
-        this.hasAttacked = hasAttacked;
-    }
-
-
-    // Lägg till besegrad fiende och uppdatera räknaren
-    public void addDefeatedOpponent(Player opponent) {
-        String opponentType = opponent.getClass().getSimpleName();
-        defeatedEnemyCount.put(opponentType, defeatedEnemyCount.getOrDefault(opponentType, 0) + 1);
-    }
-
-    // Returnera listan med antalet besegrade fiender för varje typ
-    public HashMap<String, Integer> getDefeatedEnemyCount() {
-        return defeatedEnemyCount;
     }
 }

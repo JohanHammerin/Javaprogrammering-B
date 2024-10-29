@@ -17,18 +17,18 @@ public class Game {
 
     // Kontrollera om strid ska startas
     public boolean checkForBattle() {
-        return random.nextInt(100) + 1 < 10;  // 10% chans att starta en strid
+        return random.nextInt(100) + 1 <= 10;  // 10% chans att starta en strid
     }
 
     // Skapa en fiende (Sheep för detta exempel)
     public Player createOpponent() {
         int randomOpponent = random.nextInt(100) + 1;
-        //10% chans för lejon
-        if (randomOpponent >= 90) return new Lion();
+        //25% chans för lejon
+        if (randomOpponent >= 75) return new Lion();
             //20% chans för fisk
         else if (randomOpponent <= 20) return new Fish();
-            //20% för doktor
-        else if(randomOpponent >= 70) return new Doctor();
+            //5% för doktor
+        else if (randomOpponent >= 70) return new Doctor();
 
         else return new Sheep();
     }
@@ -65,12 +65,25 @@ public class Game {
     }
 
     private void rewardForWinning(Player opponent) {
-            hero.setCurrency(hero.getCurrency() + opponent.getCurrency());
+        hero.setCurrency(hero.getCurrency() + opponent.getCurrency());
+    }
+
+
+    public int getScore() {
+        HashMap<String, Integer> defeatedCount = hero.getDefeatedEnemyCount();
+        int score = 0;
+        for (Map.Entry<String, Integer> entry : defeatedCount.entrySet()) {
+            switch (entry.getKey()) {
+                //Ingen bonus för fish eller doctor
+                case "Fish", "Doctor" -> score += (entry.getValue() * 100);
+                //10% bonus för sheep
+                case "Sheep" -> score += (entry.getValue() * 110);
+                //25% bonus för lion
+                case "Lion" -> score += (entry.getValue() * 125);
+            }
         }
-
-
-
-
+        return score;
+    }
 
     public StringBuilder printDefeatedEnemies() {
         StringBuilder returnString = new StringBuilder();

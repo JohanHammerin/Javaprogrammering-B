@@ -204,7 +204,8 @@ public class GUI {
             JOptionPane.showMessageDialog(null, "You have been defeated!");
             hideBattleOptions();
             currentOpponent = null;
-            JOptionPane.showMessageDialog(null, "Defeated enemies:\n" + game.printDefeatedEnemies());
+            JOptionPane.showMessageDialog(null, "Defeated enemies:\n" + game.printDefeatedEnemies() + "\nScore: " +
+                    game.getScore());
             System.exit(0);
         }
     }

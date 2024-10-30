@@ -1,13 +1,5 @@
+west 5 = kitchen - stekpanna
 
+north 5 = hallway - tjuven - måste ha stekpanna för att kunna döda tjuven
 
--Hitta huset
-    *Om spelaren hamnar på north 20
-        ändra knapparna från north, south, east och west till olika rum
-        gör så att bara en burglar kan skapas i createEnemy()
-        ändra inte navigations knapparna utan gör att det kommer en JOptionTextPane när man kommit in i olika rum
-        om man kommer in i köket ska man hitta en stekpanna hero.setDamage(hero.getDamage() + 3);
-        om man kommer in i hallen ska tjuven vara
-            ska finnas ja eller nej på att möta tjuven i hallen
-                om man vinner över tjuven ska man kunna gå in i kontoret
-                    välja att ringa polisen eller inte
-                        om man ringer ska spelet ta slut
+east 5 = office - tjuven måste vara död för att kunna ringa polisen

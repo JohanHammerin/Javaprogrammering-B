@@ -1,6 +1,5 @@
 package se.johan_hammerin.projektarbete.model;
 
-import java.util.HashMap;
 import java.util.Random;
 
 public class Hero extends Entity {
@@ -13,7 +12,7 @@ public class Hero extends Entity {
     private int east;
     private int west;
     private boolean hasAttacked;
-    private final HashMap<String, Integer> defeatedEnemyCount = new HashMap<>(); // Lägger till en HashMap för besegrade fiender
+    private boolean foundFryingPan;
 
     // Constructor
     public Hero() {
@@ -115,11 +114,14 @@ public class Hero extends Entity {
         this.hasAttacked = hasAttacked;
     }
 
-
-    // Lägg till besegrad fiende och uppdatera räknaren
-    public void addDefeatedOpponent(Entity opponent) {
-        String opponentType = opponent.getClass().getSimpleName();
-        defeatedEnemyCount.put(opponentType, defeatedEnemyCount.getOrDefault(opponentType, 0) + 1);
+    public boolean isFoundFryingPan() {
+        return this.foundFryingPan;
     }
+
+    public void setFoundFryingPan(boolean foundFryingPan) {
+        this.foundFryingPan = foundFryingPan;
+    }
+
+
 
 }

@@ -8,6 +8,9 @@ import java.util.Random;
 public class Game {
     private final static Random random = new Random();
     private final Hero hero;  // Använd hjälten som passeras in
+    private boolean foundKitchen;
+    private boolean foundOffice;
+    private boolean foundHallway;
 
     // Constructor tar emot hjälten
     public Game(Hero hero) {
@@ -17,13 +20,13 @@ public class Game {
 
     // Kontrollera om strid ska startas
     public boolean checkForBattle() {
-        return random.nextInt(100) + 1 <= 10;  // 10% chans att starta en strid
+        //return random.nextInt(100) + 1 <= 10;  // 10% chans att starta en strid
+        return isFoundHallway();
     }
 
     // Skapa en fiende (Sheep för detta exempel)
     public Entity createOpponent() {
-
-
+        /*
         int randomOpponent = random.nextInt(100) + 1;
         //25% chans för lejon
         if (randomOpponent >= 75) return new Lion();
@@ -32,6 +35,8 @@ public class Game {
             //5% för doktor
         else if (randomOpponent >= 70) return new Doctor();
 
+
+         */
         return new Burglar();
     }
 
@@ -48,18 +53,41 @@ public class Game {
             hero.endBattle();  // Återställ hjälteattacksstatus när striden är över
         } else if (opponent.getHealth() <= 0) {
             opponent.setHealth(0);  // Sätt HP till 0 om motståndaren besegras
-            hero.addDefeatedOpponent(opponent);
         }
-    }
-
-    public boolean checkInsideHouse() {
-        return hero.getNorth() == 20;
     }
 
 
     // Används för att hantera motståndarens attack mot hjälten
     public void battleRound(Entity opponent) {
         hero.setHealth(hero.getHealth() - opponent.getDamage());
+    }
+
+
+
+
+    //Getters & Setters
+    public boolean isFoundKitchen() {
+        return this.foundKitchen;
+    }
+
+    public void setFoundKitchen(boolean foundKitchen) {
+        this.foundKitchen = foundKitchen;
+    }
+
+    public boolean isFoundOffice() {
+        return this.foundOffice;
+    }
+
+    public void setFoundOffice(boolean foundOffice) {
+        this.foundOffice = foundOffice;
+    }
+
+    public boolean isFoundHallway() {
+        return this.foundHallway;
+    }
+
+    public void setFoundHallway(boolean foundHallway) {
+        this.foundHallway = foundHallway;
     }
 
 

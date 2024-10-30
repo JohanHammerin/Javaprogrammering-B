@@ -118,7 +118,6 @@ public class GUI {
         centerPanel.add(battleStatusTextPane);
 
 
-
         panel.add(centerPanel, BorderLayout.CENTER);
 
         frame.add(panel);
@@ -134,6 +133,14 @@ public class GUI {
         updateHeroStatus(hero);
     }
 
+
+    private void foundKitchen(Hero hero) {
+        if(hero.getNorth() == 20) {
+            game.setFoundKitchen(true);
+            JOptionPane.showMessageDialog()
+
+        }
+    }
 
 
     private void updatePosition(Hero hero, int north, int south, int east, int west) {
@@ -169,7 +176,6 @@ public class GUI {
     }
 
 
-
     private void updateBattleStatus(Hero hero, Entity opponent) {
         if (opponent != null) {
             String hpStatus = hero.getName() + " - Health: " + hero.getHealth() + "\n" +
@@ -181,7 +187,6 @@ public class GUI {
             JOptionPane.showMessageDialog(null, "You have been defeated!");
             hideBattleOptions();
             currentOpponent = null;
-
             System.exit(0);
         }
     }

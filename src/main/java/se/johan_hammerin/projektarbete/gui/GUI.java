@@ -134,13 +134,7 @@ public class GUI {
     }
 
 
-    private void foundKitchen(Hero hero) {
-        if(hero.getNorth() == 20) {
-            game.setFoundKitchen(true);
-            JOptionPane.showMessageDialog()
 
-        }
-    }
 
 
     private void updatePosition(Hero hero, int north, int south, int east, int west) {
@@ -155,6 +149,7 @@ public class GUI {
         } else {
             hideBattleOptions();
         }
+        foundKitchen(hero);
     }
 
     private void showBattleOptions() {
@@ -243,5 +238,24 @@ public class GUI {
         retreatButton.setEnabled(true);
     }
 
+
+
+
+    private void foundKitchen(Hero hero) {
+        if(hero.getNorth() == 5) {
+            //Bekräftelse dialog
+            int response = JOptionPane.showConfirmDialog(null,
+                    "Vill du gå in i köket?",
+                    "Bekräftelse",
+                    JOptionPane.YES_NO_OPTION);
+
+            if(response == JOptionPane.YES_OPTION) {
+                JOptionPane.showMessageDialog(null,"Du gick in i köket");
+                positionTextPane.setText("Köket");
+            }
+
+
+        }
+    }
 
 }

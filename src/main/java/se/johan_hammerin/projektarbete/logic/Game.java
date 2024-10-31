@@ -3,10 +3,10 @@ package se.johan_hammerin.projektarbete.logic;
 import se.johan_hammerin.projektarbete.model.*;
 
 
-import java.util.Random;
+//import java.util.Random;
 
 public class Game {
-    private final static Random random = new Random();
+    //private final static Random random = new Random();
     private final Hero hero;  // Använd hjälten som passeras in
     private boolean foundKitchen;
     private boolean foundOffice;

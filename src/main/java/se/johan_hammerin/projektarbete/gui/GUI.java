@@ -1,8 +1,8 @@
 package se.johan_hammerin.projektarbete.gui;
 
-import se.johan_hammerin.projektarbete.model.Hero;
-import se.johan_hammerin.projektarbete.model.Entity;
 import se.johan_hammerin.projektarbete.logic.Game;
+import se.johan_hammerin.projektarbete.model.Entity;
+import se.johan_hammerin.projektarbete.model.Hero;
 
 import javax.swing.*;
 import javax.swing.text.SimpleAttributeSet;
@@ -131,6 +131,10 @@ public class GUI {
         westButton.addActionListener(_ -> updatePosition(hero, 0, 0, 0, 1));
 
         updateHeroStatus(hero);
+        game.setFoundKitchen(false);
+        game.setFoundHallway(false);
+        game.setFoundOffice(false);
+
     }
 
 
@@ -139,7 +143,21 @@ public class GUI {
 
     private void updatePosition(Hero hero, int north, int south, int east, int west) {
         hero.moveHero(north, south, east, west);
-        positionTextPane.setText(hero.getPosition());
+        System.out.println(hero.getPosition());
+
+        if(hero.getNorth() == 0 && hero.getSouth() == 0 && hero.getEast() == 0 && hero.getWest() == 0) {
+            enableMovementButtons();
+        }
+
+        if(hero.getWest() == 1) {
+            foundKitchen(hero);
+        }
+        if(hero.getNorth() == 1) {
+            foundHallway(hero,currentOpponent);
+        }
+        if(hero.getWest() == 1) {
+            foundOffice();
+        }
 
         if (game.checkForBattle()) {
             currentOpponent = game.createOpponent();
@@ -149,7 +167,7 @@ public class GUI {
         } else {
             hideBattleOptions();
         }
-        foundKitchen(hero);
+
     }
 
     private void showBattleOptions() {
@@ -242,7 +260,9 @@ public class GUI {
 
 
     private void foundKitchen(Hero hero) {
-        if(hero.getNorth() == 5) {
+        northButton.setEnabled(false);
+        southButton.setEnabled(false);
+        westButton.setEnabled(false);
             //Bekräftelse dialog
             int response = JOptionPane.showConfirmDialog(null,
                     "Vill du gå in i köket?",
@@ -250,12 +270,36 @@ public class GUI {
                     JOptionPane.YES_NO_OPTION);
 
             if(response == JOptionPane.YES_OPTION) {
+                game.setFoundKitchen(true);
                 JOptionPane.showMessageDialog(null,"Du gick in i köket");
                 positionTextPane.setText("Köket");
+
+                if(!hero.isFoundFryingPan()) {
+                    response = JOptionPane.showConfirmDialog(null,
+                            "Vill du plocka upp en stekpanna?",
+                            "Bekräftelse",
+                            JOptionPane.YES_NO_OPTION);
+
+                    if(response == JOptionPane.YES_OPTION) {
+                        hero.setDamage(hero.getDamage() + 3);
+                        hero.setFoundFryingPan(true);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null,"Köket är tomt!");
+                }
+
+
             }
 
 
-        }
+    }
+
+    private void foundHallway(Entity hero, Entity opponent) {
+
+    }
+
+    private void foundOffice() {
+
     }
 
 }

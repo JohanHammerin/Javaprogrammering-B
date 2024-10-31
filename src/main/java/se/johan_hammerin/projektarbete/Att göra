@@ -1,5 +1,10 @@
-west 5 = kitchen - stekpanna
+Navigation:
+    om west = 1, hitta köket, val att plocka upp stekpanna
+        om man väljer att plocka upp stekpanna ska attack +=3
+        skapa en variabel för om tjuven är besegrad eller inte
+    om north = 1, hitta hallen, val att slåss mot tjuven
+    om east = 1, hitta kontor, val att ringa polis (om man besegrat tjuven)
+JUnit test
+    testa battleround metod, motståndare och hero ska båda ta skada efter metod körts
+    testa isConscius metod, ska båda testa om hero lever eller inte
 
-north 5 = hallway - tjuven - måste ha stekpanna för att kunna döda tjuven
-
-east 5 = office - tjuven måste vara död för att kunna ringa polisen

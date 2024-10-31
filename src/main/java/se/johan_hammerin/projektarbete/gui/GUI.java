@@ -294,7 +294,7 @@ public class GUI {
 
     }
 
-    private void foundHallway(Entity hero, Entity opponent) {
+    private void foundHallway(Hero hero, Entity opponent) {
 
     }
 

@@ -12,6 +12,7 @@ import java.awt.*;
 public class GUI {
     private JTextPane battleStatusTextPane;
     private JPanel centerPanel;
+    private JTextPane positionTextPane;
     // Knappar
     private JButton attackButton;
     private JButton retreatButton;
@@ -103,8 +104,8 @@ public class GUI {
 
 
         // TextPane
-        JTextPane positionTextPane = new JTextPane();
-        positionTextPane.setText(hero.getPosition());
+        positionTextPane = new JTextPane();
+        positionTextPane.setText(game.updateRoom());
         positionTextPane.setEditable(false);
         positionTextPane.setFont(new Font("Arial", Font.BOLD, 16));
         centerText(positionTextPane);
@@ -134,6 +135,17 @@ public class GUI {
 
     private void updatePosition(Hero hero, int north, int south, int east, int west) {
         hero.moveHero(north, south, east, west);
+        positionTextPane.setText(game.updateRoom());
+
+        switch (game.updateRoom()) {
+            case "Köket" -> enterKitchen();
+            case "Hallen" -> enterHallway();
+            case "Kontor" -> enterOffice();
+            case "Balkong" -> enterBalcony();
+            case "Vardagsrum" -> enterLivingRoom();
+            default -> System.out.println("Fel i updatePosition metoden");
+        }
+
 
         if (game.checkForBattle()) {
             currentOpponent = game.createOpponent();
@@ -229,6 +241,32 @@ public class GUI {
     private void enableBattleButtons() {
         attackButton.setEnabled(true);
         retreatButton.setEnabled(true);
+    }
+
+
+    private void enterKitchen() {
+        if(!game.isFoundHallway()) {
+            disableMovementButtons();
+            eastButton.setEnabled(true);
+            JOptionPane.showMessageDialog(null, "Du gick in i köket!");
+        }
+    }
+
+    private void enterHallway() {
+        disableMovementButtons();
+        southButton.setEnabled(true);
+    }
+
+    private void enterOffice() {
+
+    }
+
+    private void enterLivingRoom() {
+        enableMovementButtons();
+    }
+
+    private void enterBalcony() {
+
     }
 
 }

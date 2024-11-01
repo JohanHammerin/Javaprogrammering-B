@@ -1,8 +1,3 @@
-Variabler:
-    Getter och Setter för
-        boolean foundKitchen
-        boolean foundHallway
-        boolean foundOffice
 
 Navigation:
     om west = 1, hitta köket, val att plocka upp stekpanna

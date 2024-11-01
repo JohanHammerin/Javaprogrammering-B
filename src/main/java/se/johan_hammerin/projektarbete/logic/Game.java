@@ -8,6 +8,7 @@ public class Game {
     private boolean foundKitchen;
     private boolean foundHallway;
     private boolean foundOffice;
+    private boolean foundBalcony;
 
     // Constructor tar emot hjälten
     public Game(Hero hero) {
@@ -55,6 +56,50 @@ public class Game {
     public void battleRound(Entity opponent) {
         hero.setHealth(hero.getHealth() - opponent.getDamage());
     }
+
+    public String updateRoom() {
+        if (hero.getWest() == 1) return "Köket";
+        if (hero.getNorth() == 1) return "Hallen";
+        if (hero.getEast() == 1) return "Kontor";
+        if (hero.getSouth() == 1) return "Balkong";
+        if(hero.getNorth() == 0 && hero.getSouth() == 0 && hero.getWest() == 0 && hero.getEast() == 0) return "Vardagsrum";
+        else return "Inget";
+    }
+
+
+    //Getters & Setters
+    public boolean isFoundKitchen() {
+        return this.foundKitchen;
+    }
+
+    public void setFoundKitchen(boolean foundKitchen) {
+        this.foundKitchen = foundKitchen;
+    }
+
+    public boolean isFoundHallway() {
+        return this.foundHallway;
+    }
+
+    public void setFoundHallway(boolean foundHallway) {
+        this.foundHallway = foundHallway;
+    }
+
+    public boolean isFoundOffice() {
+        return this.foundOffice;
+    }
+
+    public void setFoundOffice(boolean foundOffice) {
+        this.foundOffice = foundOffice;
+    }
+
+    public boolean isFoundBalcony() {
+        return this.foundBalcony;
+    }
+
+    public void setFoundBalcony(boolean foundBalcony) {
+        this.foundBalcony = foundBalcony;
+    }
+
 
 
 }

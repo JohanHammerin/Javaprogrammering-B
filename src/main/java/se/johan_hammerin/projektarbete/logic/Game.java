@@ -5,6 +5,9 @@ import se.johan_hammerin.projektarbete.model.*;
 
 public class Game {
     private final Hero hero;  // Använd hjälten som passeras in
+    private boolean foundKitchen;
+    private boolean foundHallway;
+    private boolean foundOffice;
 
     // Constructor tar emot hjälten
     public Game(Hero hero) {

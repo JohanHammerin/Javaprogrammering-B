@@ -185,7 +185,8 @@ public class GUI {
     }
 
     private void updateHeroStatus(Hero hero) {
-        battleStatusTextPane.setText(updateHeroStatus(hero));
+        String heroStatus = hero.getName() + " - Health: " + hero.getHealth();
+        battleStatusTextPane.setText(heroStatus);
     }
 
     private void centerText(JTextPane textPane) {

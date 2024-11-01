@@ -4,14 +4,13 @@ public abstract class Entity {
     private String name;
     private int health;
     private int damage;
-    private int currency;
 
     // Constructor
-    protected Entity(String name, int health, int damage, int currency) {
+    protected Entity(String name, int health, int damage) {
         setName(name);
         setHealth(health);
         setDamage(damage);
-        setCurrency(currency);
+
     }
 
     // Getters & Setters
@@ -37,14 +36,6 @@ public abstract class Entity {
 
     public void setDamage(int damage) {
         this.damage = damage;
-    }
-
-    public int getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(int currency) {
-        this.currency = Math.max(currency, 0);
     }
 
     @Override

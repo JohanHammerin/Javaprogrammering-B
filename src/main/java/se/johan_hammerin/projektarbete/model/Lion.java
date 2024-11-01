@@ -4,6 +4,6 @@ public class Lion extends Entity {
 
     // Constructor
     public Lion() {
-        super("Lion", 50, 10, 25);
+        super("Lion", 50, 10);
     }
 }

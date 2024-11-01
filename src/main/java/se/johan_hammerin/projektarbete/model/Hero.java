@@ -1,6 +1,5 @@
 package se.johan_hammerin.projektarbete.model;
 
-import java.util.HashMap;
 import java.util.Random;
 
 public class Hero extends Entity {
@@ -13,14 +12,11 @@ public class Hero extends Entity {
     private int east;
     private int west;
     private boolean hasAttacked;
-    private final int initialHealth;
-    private final HashMap<String, Integer> defeatedEnemyCount = new HashMap<>(); // Lägger till en HashMap för besegrade fiender
+    private boolean foundFryingPan;
 
     // Constructor
     public Hero() {
-        super("Hero", 12, 3, 0);
-        this.initialHealth = 12;
-        setHealth(initialHealth);
+        super("Hero", 12, 3);
         resetPosition();
     }
 
@@ -29,9 +25,6 @@ public class Hero extends Entity {
         return String.format("N%d.S%d.E%d.W%d", getNorth(), getSouth(), getEast(), getWest());
     }
 
-    public void restoreHealth() {
-        setHealth(initialHealth);  // Återställ till det ursprungliga hälsovärdet
-    }
 
     // Reset hero's position
     public void resetPosition() {
@@ -121,15 +114,14 @@ public class Hero extends Entity {
         this.hasAttacked = hasAttacked;
     }
 
-
-    // Lägg till besegrad fiende och uppdatera räknaren
-    public void addDefeatedOpponent(Entity opponent) {
-        String opponentType = opponent.getClass().getSimpleName();
-        defeatedEnemyCount.put(opponentType, defeatedEnemyCount.getOrDefault(opponentType, 0) + 1);
+    public boolean isFoundFryingPan() {
+        return this.foundFryingPan;
     }
 
-    // Returnera listan med antalet besegrade fiender för varje typ
-    public HashMap<String, Integer> getDefeatedEnemyCount() {
-        return defeatedEnemyCount;
+    public void setFoundFryingPan(boolean foundFryingPan) {
+        this.foundFryingPan = foundFryingPan;
     }
+
+
+
 }

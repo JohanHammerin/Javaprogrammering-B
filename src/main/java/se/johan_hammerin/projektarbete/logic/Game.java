@@ -14,6 +14,7 @@ public class Game {
 
     // Kontrollera om strid ska startas
     public boolean checkForBattle() {
+        return false;
     }
 
     // Skapa en fiende (Sheep för detta exempel)
@@ -52,14 +53,5 @@ public class Game {
         hero.setHealth(hero.getHealth() - opponent.getDamage());
     }
 
-
-
-        }
-    }
-
-
-            }
-        }
-    }
 
 }

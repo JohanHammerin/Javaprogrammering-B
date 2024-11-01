@@ -1,6 +1,7 @@
 package se.johan_hammerin.projektarbete.gui;
 
 import se.johan_hammerin.projektarbete.logic.Game;
+import se.johan_hammerin.projektarbete.model.*;
 
 import javax.swing.*;
 import javax.swing.text.SimpleAttributeSet;
@@ -9,8 +10,6 @@ import javax.swing.text.StyledDocument;
 import java.awt.*;
 
 public class GUI {
-    // TextPane
-    private JTextPane positionTextPane;
     private JTextPane battleStatusTextPane;
     private JPanel centerPanel;
     // Knappar
@@ -103,7 +102,8 @@ public class GUI {
         });
 
 
-        positionTextPane = new JTextPane();
+        // TextPane
+        JTextPane positionTextPane = new JTextPane();
         positionTextPane.setText(hero.getPosition());
         positionTextPane.setEditable(false);
         positionTextPane.setFont(new Font("Arial", Font.BOLD, 16));
@@ -185,7 +185,7 @@ public class GUI {
     }
 
     private void updateHeroStatus(Hero hero) {
-        battleStatusTextPane.setText(heroStatus);
+        battleStatusTextPane.setText(updateHeroStatus(hero));
     }
 
     private void centerText(JTextPane textPane) {
@@ -230,6 +230,4 @@ public class GUI {
         retreatButton.setEnabled(true);
     }
 
-        }
-    }
 }

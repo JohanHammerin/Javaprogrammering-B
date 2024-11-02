@@ -13,6 +13,7 @@ public class Hero extends Entity {
     private int west;
     private boolean hasAttacked;
     private boolean foundFryingPan;
+    private boolean defeatedEnemy;
 
     // Constructor
     public Hero() {
@@ -122,6 +123,13 @@ public class Hero extends Entity {
         this.foundFryingPan = foundFryingPan;
     }
 
+    public boolean isDefeatedEnemy() {
+        return this.defeatedEnemy;
+    }
+
+    public void setDefeatedEnemy(boolean defeatedEnemy) {
+        this.defeatedEnemy = defeatedEnemy;
+    }
 
 
 }

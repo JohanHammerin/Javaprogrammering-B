@@ -77,8 +77,8 @@ public class GUI {
                     JOptionPane.showMessageDialog(null, currentOpponent.getName() + " defeated!");
                     updateHeroStatus(hero);
                     hideBattleOptions();
-                    enableMovementButtons();
                     currentOpponent = null;
+                    hero.setDefeatedEnemy(true);
                 } else if (hero.getHealth() <= 0) {
                     JOptionPane.showMessageDialog(null, "You have been defeated!");
                     updateHeroStatus(hero);
@@ -93,7 +93,6 @@ public class GUI {
                 JOptionPane.showMessageDialog(null, "Du lyckades fly!");
                 hero.endBattle();
                 hideBattleOptions();
-                enableMovementButtons();
                 updateHeroStatus(hero);
             } else {
                 JOptionPane.showMessageDialog(null, "Du lyckades inte fly!\n" + currentOpponent.getClass().getSimpleName() + " attackerade dig!");
@@ -138,8 +137,8 @@ public class GUI {
         positionTextPane.setText(game.updateRoom());
 
         switch (game.updateRoom()) {
-            case "Köket" -> enterKitchen();
-            case "Hallen" -> enterHallway();
+            case "Köket" -> enterKitchen(hero);
+            case "Hallen" -> enterHallway(hero);
             case "Kontor" -> enterOffice();
             case "Balkong" -> enterBalcony();
             case "Vardagsrum" -> enterLivingRoom();
@@ -147,14 +146,6 @@ public class GUI {
         }
 
 
-        if (game.checkForBattle()) {
-            currentOpponent = game.createOpponent();
-            showBattleOptions();
-            disableMovementButtons();
-            updateBattleStatus(hero, currentOpponent);
-        } else {
-            hideBattleOptions();
-        }
     }
 
     private void showBattleOptions() {
@@ -244,21 +235,49 @@ public class GUI {
     }
 
 
-    private void enterKitchen() {
-        if(!game.isFoundHallway()) {
-            disableMovementButtons();
-            eastButton.setEnabled(true);
-            JOptionPane.showMessageDialog(null, "Du gick in i köket!");
+    private void enterKitchen(Hero hero) {
+        disableMovementButtons();
+        eastButton.setEnabled(true);
+
+        if (!hero.isFoundFryingPan()) {
+            int answer = JOptionPane.showConfirmDialog(null, "Vill du plocka upp en stekpanna?", "Val", JOptionPane.YES_NO_OPTION);
+            if (answer == JOptionPane.YES_OPTION) {
+                hero.setDamage(hero.getDamage() + 3);
+                hero.setFoundFryingPan(true);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Köket är tomt!");
         }
     }
 
-    private void enterHallway() {
+    private void enterHallway(Hero hero) {
         disableMovementButtons();
         southButton.setEnabled(true);
+
+        if(!hero.isDefeatedEnemy()) {
+            int answer = JOptionPane.showConfirmDialog(null, "Du hittade en inbrottstjuv i hallen!\nVågar du slåss?", "Val", JOptionPane.YES_NO_OPTION);
+
+            if (answer == JOptionPane.YES_OPTION) {
+                if (game.checkForBattle()) {
+                    currentOpponent = game.createOpponent();
+                    showBattleOptions();
+                    disableMovementButtons();
+                    updateBattleStatus(hero, currentOpponent);
+                    disableMovementButtons();
+                    southButton.setEnabled(true);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Leta efter ett hjälpmedel i köket!");
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Du borde ringa polisen!");
+        }
+
     }
 
     private void enterOffice() {
-
+        disableMovementButtons();
+        westButton.setEnabled(true);
     }
 
     private void enterLivingRoom() {
@@ -266,7 +285,8 @@ public class GUI {
     }
 
     private void enterBalcony() {
-
+        disableMovementButtons();
+        northButton.setEnabled(true);
     }
 
 }

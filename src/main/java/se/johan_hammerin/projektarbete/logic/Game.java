@@ -18,7 +18,7 @@ public class Game {
 
     // Kontrollera om strid ska startas
     public boolean checkForBattle() {
-        return false;
+        return hero.isFoundFryingPan();
     }
 
     // Skapa en fiende (Sheep för detta exempel)

@@ -35,13 +35,13 @@ public class GUI {
         JPanel panel = new JPanel(new BorderLayout());
 
         // Skapa riktningsknappar och ställ in större storlek och font
-        northButton = new JButton("North");
-        southButton = new JButton("South");
-        eastButton = new JButton("East");
-        westButton = new JButton("West");
+        northButton = new JButton("Hall");
+        southButton = new JButton("Balkong");
+        eastButton = new JButton("Kontor");
+        westButton = new JButton("Kök");
 
-        Font buttonFont = new Font("Arial", Font.BOLD, 20); // Större font för knapparna
-        Dimension buttonSize = new Dimension(100, 50); // Större dimensioner för knapparna
+        Font buttonFont = new Font("Arial", Font.BOLD, 22); // Större font för knapparna
+        Dimension buttonSize = new Dimension(200, 50); // Större dimensioner för knapparna
 
         northButton.setFont(buttonFont);
         northButton.setPreferredSize(buttonSize);
@@ -80,7 +80,7 @@ public class GUI {
                     currentOpponent = null;
                     hero.setDefeatedEnemy(true);
                 } else if (hero.getHealth() <= 0) {
-                    JOptionPane.showMessageDialog(null, "You have been defeated!");
+                    JOptionPane.showMessageDialog(null, "Du förlorade striden");
                     updateHeroStatus(hero);
                     System.exit(0);
                 }
@@ -139,7 +139,7 @@ public class GUI {
         switch (game.updateRoom()) {
             case "Köket" -> enterKitchen(hero);
             case "Hallen" -> enterHallway(hero);
-            case "Kontor" -> enterOffice();
+            case "Kontor" -> enterOffice(hero);
             case "Balkong" -> enterBalcony();
             case "Vardagsrum" -> enterLivingRoom();
             default -> System.out.println("Fel i updatePosition metoden");
@@ -236,6 +236,7 @@ public class GUI {
 
 
     private void enterKitchen(Hero hero) {
+        eastButton.setText("Vardagsrum");
         disableMovementButtons();
         eastButton.setEnabled(true);
 
@@ -251,42 +252,66 @@ public class GUI {
     }
 
     private void enterHallway(Hero hero) {
+        southButton.setText("Vardagsrum");
         disableMovementButtons();
         southButton.setEnabled(true);
 
-        if(!hero.isDefeatedEnemy()) {
+        if (!hero.isDefeatedEnemy()) {
             int answer = JOptionPane.showConfirmDialog(null, "Du hittade en inbrottstjuv i hallen!\nVågar du slåss?", "Val", JOptionPane.YES_NO_OPTION);
 
             if (answer == JOptionPane.YES_OPTION) {
-                if (game.checkForBattle()) {
-                    currentOpponent = game.createOpponent();
-                    showBattleOptions();
-                    disableMovementButtons();
-                    updateBattleStatus(hero, currentOpponent);
-                    disableMovementButtons();
-                    southButton.setEnabled(true);
+                if (!game.foundFryingPan()) {
+                    answer = JOptionPane.showConfirmDialog(null, "Du är trött!\nVill du leta efter ett hjälpmedel i köket!", "Val", JOptionPane.YES_NO_OPTION);
+                    if (answer == JOptionPane.NO_OPTION) {
+                        battleBurglar(hero);
+                    }
                 } else {
-                    JOptionPane.showMessageDialog(null, "Leta efter ett hjälpmedel i köket!");
+                    battleBurglar(hero);
                 }
             }
         } else {
             JOptionPane.showMessageDialog(null, "Du borde ringa polisen!");
         }
 
+
     }
 
-    private void enterOffice() {
+    private void enterOffice(Hero hero) {
+        westButton.setText("Vardagsrum");
         disableMovementButtons();
         westButton.setEnabled(true);
+
+        if (hero.isDefeatedEnemy()) {
+            int answer = JOptionPane.showConfirmDialog(null, "Vill du ringa polisen?", "Val", JOptionPane.YES_NO_OPTION);
+            if (answer == JOptionPane.YES_OPTION) {
+                JOptionPane.showMessageDialog(null, "Du ringde polisen!\nSpelet avslutas...");
+                System.exit(0);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Du måste besegra tjuven för att kunna ringa polisen!");
+        }
     }
 
     private void enterLivingRoom() {
         enableMovementButtons();
+        northButton.setText("Hall");
+        southButton.setText("Balkong");
+        eastButton.setText("Kontor");
+        westButton.setText("Kök");
     }
 
     private void enterBalcony() {
         disableMovementButtons();
         northButton.setEnabled(true);
+        northButton.setText("Vardagsrum");
+    }
+
+    private void battleBurglar(Hero hero) {
+        currentOpponent = game.createOpponent();
+        showBattleOptions();
+        disableMovementButtons();
+        updateBattleStatus(hero, currentOpponent);
+        southButton.setEnabled(true);
     }
 
 }

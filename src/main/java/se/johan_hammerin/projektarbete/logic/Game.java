@@ -17,7 +17,7 @@ public class Game {
 
 
     // Kontrollera om strid ska startas
-    public boolean checkForBattle() {
+    public boolean foundFryingPan() {
         return hero.isFoundFryingPan();
     }
 

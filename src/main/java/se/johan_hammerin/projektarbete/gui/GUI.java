@@ -95,6 +95,7 @@ public class GUI {
                 resident.endBattle();
                 hideBattleOptions();
                 updateResidentStatus(resident);
+                southButton.setEnabled(true);
             } else {
                 JOptionPane.showMessageDialog(null, "Du lyckades inte fly!\n" + currentOpponent.getClass().getSimpleName() + " attackerade dig!");
                 game.battleRound(currentOpponent);
@@ -317,11 +318,18 @@ public class GUI {
 
         int answer = JOptionPane.showConfirmDialog(null, "Vill du vila i sängen? ", "Val", JOptionPane.YES_NO_OPTION);
         if (answer == JOptionPane.YES_OPTION) {
-            if(resident.isDefeatedEnemy()) {
+            if (resident.getHealth() < 12) {
                 JOptionPane.showMessageDialog(null, "Du tog en liten tupplur!");
+
+                resident.setHealth(resident.getHealth() + 3);
+                if (resident.getHealth() > 12) {
+                    resident.setHealth(12);
+
+                }
             } else {
-                JOptionPane.showMessageDialog(null, "Du får inte sova!\nDet är något som lurar i hallen.");
+                JOptionPane.showMessageDialog(null, "Du måste förtjäna din sömn.");
             }
+            updateResidentStatus(resident);
         }
     }
 

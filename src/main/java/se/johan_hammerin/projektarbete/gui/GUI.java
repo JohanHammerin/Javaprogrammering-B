@@ -25,8 +25,8 @@ public class GUI {
     private Entity currentOpponent;
 
     // Skapa GUI
-    public void createGUI(Hero hero) {
-        game = new Game(hero);
+    public void createGUI(Resident resident) {
+        game = new Game(resident);
 
         JFrame frame = new JFrame("Adventure Game");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -36,7 +36,7 @@ public class GUI {
 
         // Skapa riktningsknappar och ställ in större storlek och font
         northButton = new JButton("Hall");
-        southButton = new JButton("Balkong");
+        southButton = new JButton("Sovrum");
         eastButton = new JButton("Kontor");
         westButton = new JButton("Kök");
 
@@ -62,26 +62,27 @@ public class GUI {
 
         centerPanel = new JPanel(new GridLayout(4, 1, 10, 10));
 
-        attackButton = new JButton("Attack");
-        retreatButton = new JButton("Retreat");
+        attackButton = new JButton("Attackera");
+        retreatButton = new JButton("Fly");
 
 
         attackButton.addActionListener(_ -> {
             if (currentOpponent != null) {
                 disableBattleButtons();
-                game.battleRound(hero, currentOpponent);
-                updateBattleStatus(hero, currentOpponent);
-                appendCombatLog(showCombatLog(hero, currentOpponent));
+                game.battleRound(resident, currentOpponent);
+                updateBattleStatus(resident, currentOpponent);
+                appendCombatLog(showCombatLog(resident, currentOpponent));
 
-                if (currentOpponent != null && currentOpponent.getHealth() <= 0) {
-                    JOptionPane.showMessageDialog(null, currentOpponent.getName() + " defeated!");
-                    updateHeroStatus(hero);
+                if (currentOpponent != null && !currentOpponent.isConscious()) {
+                    JOptionPane.showMessageDialog(null, currentOpponent.getRole() + " blev besegrad!");
+                    updateResidentStatus(resident);
                     hideBattleOptions();
                     currentOpponent = null;
-                    hero.setDefeatedEnemy(true);
-                } else if (hero.getHealth() <= 0) {
+                    resident.setDefeatedEnemy(true);
+                    southButton.setEnabled(true);
+                } else if (resident.getHealth() <= 0) {
                     JOptionPane.showMessageDialog(null, "Du förlorade striden");
-                    updateHeroStatus(hero);
+                    updateResidentStatus(resident);
                     System.exit(0);
                 }
                 enableBattleButtons();
@@ -89,15 +90,15 @@ public class GUI {
         });
 
         retreatButton.addActionListener(_ -> {
-            if (hero.checkForRetreat()) {
+            if (resident.checkForRetreat()) {
                 JOptionPane.showMessageDialog(null, "Du lyckades fly!");
-                hero.endBattle();
+                resident.endBattle();
                 hideBattleOptions();
-                updateHeroStatus(hero);
+                updateResidentStatus(resident);
             } else {
                 JOptionPane.showMessageDialog(null, "Du lyckades inte fly!\n" + currentOpponent.getClass().getSimpleName() + " attackerade dig!");
                 game.battleRound(currentOpponent);
-                updateBattleStatus(hero, currentOpponent);
+                updateBattleStatus(resident, currentOpponent);
             }
         });
 
@@ -123,24 +124,24 @@ public class GUI {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
-        northButton.addActionListener(_ -> updatePosition(hero, 1, 0, 0, 0));
-        southButton.addActionListener(_ -> updatePosition(hero, 0, 1, 0, 0));
-        eastButton.addActionListener(_ -> updatePosition(hero, 0, 0, 1, 0));
-        westButton.addActionListener(_ -> updatePosition(hero, 0, 0, 0, 1));
+        northButton.addActionListener(_ -> updatePosition(resident, 0, 1));
+        southButton.addActionListener(_ -> updatePosition(resident, 0, -1));
+        eastButton.addActionListener(_ -> updatePosition(resident, 1, 0));
+        westButton.addActionListener(_ -> updatePosition(resident, -1, 0));
 
-        updateHeroStatus(hero);
+        updateResidentStatus(resident);
     }
 
 
-    private void updatePosition(Hero hero, int north, int south, int east, int west) {
-        hero.moveHero(north, south, east, west);
+    private void updatePosition(Resident resident, int x, int y) {
+        resident.moveResident(x, y);
         positionTextPane.setText(game.updateRoom());
 
         switch (game.updateRoom()) {
-            case "Köket" -> enterKitchen(hero);
-            case "Hallen" -> enterHallway(hero);
-            case "Kontor" -> enterOffice(hero);
-            case "Balkong" -> enterBalcony();
+            case "Köket" -> enterKitchen(resident);
+            case "Hallen" -> enterHallway(resident);
+            case "Kontor" -> enterOffice(resident);
+            case "Sovrum" -> enterBedroom(resident);
             case "Vardagsrum" -> enterLivingRoom();
             default -> System.out.println("Fel i updatePosition metoden");
         }
@@ -167,15 +168,15 @@ public class GUI {
     }
 
 
-    private void updateBattleStatus(Hero hero, Entity opponent) {
+    private void updateBattleStatus(Resident resident, Entity opponent) {
         if (opponent != null) {
-            String hpStatus = hero.getName() + " - Health: " + hero.getHealth() + "\n" +
-                    "Opponent: " + opponent.getName() + " - Health: " + opponent.getHealth() + "\n";
+            String hpStatus = resident.getRole() + ": " + resident.getHealth() + " hp\n" +
+                    opponent.getRole() + ": " + opponent.getHealth() + " hp\n";
             battleStatusTextPane.setText(hpStatus);
         }
 
-        if (hero.getHealth() <= 0) {
-            JOptionPane.showMessageDialog(null, "You have been defeated!");
+        if (!resident.isConscious()) {
+            JOptionPane.showMessageDialog(null, "Du har blivit besegrad!");
             hideBattleOptions();
             currentOpponent = null;
             System.exit(0);
@@ -187,9 +188,9 @@ public class GUI {
         battleStatusTextPane.setText(currentText + "\n" + combatLog);
     }
 
-    private void updateHeroStatus(Hero hero) {
-        String heroStatus = hero.getName() + " - Health: " + hero.getHealth();
-        battleStatusTextPane.setText(heroStatus);
+    private void updateResidentStatus(Resident resident) {
+        String residentStatus = resident.getRole() + ": " + resident.getHealth() + " hp";
+        battleStatusTextPane.setText(residentStatus);
     }
 
     private void centerText(JTextPane textPane) {
@@ -199,14 +200,14 @@ public class GUI {
         doc.setParagraphAttributes(0, doc.getLength(), center, false);
     }
 
-    private String showCombatLog(Entity hero, Entity opponent) {
-        if (hero.getHealth() < 0 || opponent.getHealth() < 0) {
+    private String showCombatLog(Entity resident, Entity opponent) {
+        if (!resident.isConscious() || !opponent.isConscious()) {
             return "";
         } else {
-            return hero.getName() + " attacks " + opponent.getName() +
-                    " for " + hero.getDamage() + " damage ⚔️\n" +
-                    opponent.getName() + " attacks " + hero.getName() +
-                    " for " + opponent.getDamage() + " damage ⚔️";
+            return resident.getRole() + " attackerar " + opponent.getRole() +
+                    " med " + resident.getDamage() + " skada ⚔️\n" +
+                    opponent.getRole() + " attackerar " + resident.getRole() +
+                    " med " + opponent.getDamage() + " skada ⚔️";
         }
     }
 
@@ -235,55 +236,64 @@ public class GUI {
     }
 
 
-    private void enterKitchen(Hero hero) {
+    private void enterKitchen(Resident resident) {
         eastButton.setText("Vardagsrum");
         disableMovementButtons();
         eastButton.setEnabled(true);
 
-        if (!hero.isFoundFryingPan()) {
+        if (!resident.isFoundFryingPan()) {
             int answer = JOptionPane.showConfirmDialog(null, "Vill du plocka upp en stekpanna?", "Val", JOptionPane.YES_NO_OPTION);
             if (answer == JOptionPane.YES_OPTION) {
-                hero.setDamage(hero.getDamage() + 3);
-                hero.setFoundFryingPan(true);
+                resident.setDamage(resident.getDamage() + 3);
+                resident.setFoundFryingPan(true);
             }
         } else {
             JOptionPane.showMessageDialog(null, "Köket är tomt!");
         }
     }
 
-    private void enterHallway(Hero hero) {
+    // In enterHallway method (add this check at the beginning of the method)
+    private void enterHallway(Resident resident) {
         southButton.setText("Vardagsrum");
         disableMovementButtons();
-        southButton.setEnabled(true);
 
-        if (!hero.isDefeatedEnemy()) {
-            int answer = JOptionPane.showConfirmDialog(null, "Du hittade en inbrottstjuv i hallen!\nVågar du slåss?", "Val", JOptionPane.YES_NO_OPTION);
+        // Om tjuven är besegrad, aktivera southButton direkt
+        if (resident.isDefeatedEnemy()) {
+            JOptionPane.showMessageDialog(null, "Du borde ringa polisen!");
+            southButton.setEnabled(true);
+            return;
+        }
 
-            if (answer == JOptionPane.YES_OPTION) {
-                if (!game.foundFryingPan()) {
-                    answer = JOptionPane.showConfirmDialog(null, "Du är trött!\nVill du leta efter ett hjälpmedel i köket!", "Val", JOptionPane.YES_NO_OPTION);
-                    if (answer == JOptionPane.NO_OPTION) {
-                        battleBurglar(hero);
-                    }
+        // Resterande logik om tjuven inte är besegrad
+        int answer = JOptionPane.showConfirmDialog(null, "Du hittade en inbrottstjuv i hallen!\nVågar du slåss?", "Val", JOptionPane.YES_NO_OPTION);
+        if (answer == JOptionPane.YES_OPTION) {
+            if (!game.foundFryingPan()) {
+                answer = JOptionPane.showConfirmDialog(null, "Du är trött!\nVill du leta efter ett hjälpmedel i köket!", "Val", JOptionPane.YES_NO_OPTION);
+                if (answer == JOptionPane.NO_OPTION) {
+                    battleBurglar(resident);
                 } else {
-                    battleBurglar(hero);
+                    southButton.setEnabled(true);
+                }
+            } else {
+                battleBurglar(resident);
+                if (resident.isDefeatedEnemy()) {
+                    southButton.setEnabled(true);
                 }
             }
         } else {
-            JOptionPane.showMessageDialog(null, "Du borde ringa polisen!");
+            southButton.setEnabled(true);
         }
-
-
     }
 
-    private void enterOffice(Hero hero) {
+    private void enterOffice(Resident resident) {
         westButton.setText("Vardagsrum");
         disableMovementButtons();
         westButton.setEnabled(true);
 
-        if (hero.isDefeatedEnemy()) {
+        if (resident.isDefeatedEnemy()) {
             int answer = JOptionPane.showConfirmDialog(null, "Vill du ringa polisen?", "Val", JOptionPane.YES_NO_OPTION);
             if (answer == JOptionPane.YES_OPTION) {
+                eastButton.setEnabled(false);
                 JOptionPane.showMessageDialog(null, "Du ringde polisen!\nSpelet avslutas...");
                 System.exit(0);
             }
@@ -295,23 +305,31 @@ public class GUI {
     private void enterLivingRoom() {
         enableMovementButtons();
         northButton.setText("Hall");
-        southButton.setText("Balkong");
+        southButton.setText("Sovrum");
         eastButton.setText("Kontor");
         westButton.setText("Kök");
     }
 
-    private void enterBalcony() {
+    private void enterBedroom(Resident resident) {
         disableMovementButtons();
         northButton.setEnabled(true);
         northButton.setText("Vardagsrum");
+
+        int answer = JOptionPane.showConfirmDialog(null, "Vill du vila i sängen? ", "Val", JOptionPane.YES_NO_OPTION);
+        if (answer == JOptionPane.YES_OPTION) {
+            if(resident.isDefeatedEnemy()) {
+                JOptionPane.showMessageDialog(null, "Du tog en liten tupplur!");
+            } else {
+                JOptionPane.showMessageDialog(null, "Du får inte sova!\nDet är något som lurar i hallen.");
+            }
+        }
     }
 
-    private void battleBurglar(Hero hero) {
+    private void battleBurglar(Resident resident) {
         currentOpponent = game.createOpponent();
         showBattleOptions();
         disableMovementButtons();
-        updateBattleStatus(hero, currentOpponent);
-        southButton.setEnabled(true);
+        updateBattleStatus(resident, currentOpponent);
     }
 
 }

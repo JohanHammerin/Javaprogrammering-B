@@ -8,7 +8,7 @@ public class GameTest extends TestCase {
 
     public void testBattleRound() {
         // Skapa hjälte och motståndare
-        Hero hero = new Hero();
+        Resident hero = new Resident();
         Entity burglar = new Burglar();
 
         // Hämta ursprunglig hälsa

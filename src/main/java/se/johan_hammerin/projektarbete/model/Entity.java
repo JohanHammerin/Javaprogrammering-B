@@ -1,25 +1,29 @@
 package se.johan_hammerin.projektarbete.model;
 
 public abstract class Entity {
-    private String name;
+    private String role;
     private int health;
     private int damage;
 
     // Constructor
-    protected Entity(String name, int health, int damage) {
-        setName(name);
+    protected Entity(String role, int health, int damage) {
+        setRole(role);
         setHealth(health);
         setDamage(damage);
 
     }
 
-    // Getters & Setters
-    public String getName() {
-        return name;
+    public boolean isConscious() {
+        return getHealth() > 0;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    // Getters & Setters
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public int getHealth() {
@@ -27,7 +31,10 @@ public abstract class Entity {
     }
 
     public void setHealth(int health) {
-        this.health = Math.max(health, 0);
+        if (health < 0) {
+            health = 0;
+        }
+        this.health = health;
     }
 
     public int getDamage() {
@@ -36,10 +43,5 @@ public abstract class Entity {
 
     public void setDamage(int damage) {
         this.damage = damage;
-    }
-
-    @Override
-    public String toString() {
-        return String.format("Player{name='%s', health=%d, damage=%d}", name, health, damage);
     }
 }

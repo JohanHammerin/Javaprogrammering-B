@@ -136,6 +136,4 @@ public class Resident extends Entity {
     public void setDefeatedEnemy(boolean defeatedEnemy) {
         this.defeatedEnemy = defeatedEnemy;
     }
-
-
 }

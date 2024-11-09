@@ -10,7 +10,6 @@ public abstract class Entity {
         setRole(role);
         setHealth(health);
         setDamage(damage);
-
     }
 
     public boolean isConscious() {

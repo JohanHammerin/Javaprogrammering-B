@@ -69,7 +69,7 @@ public class Resident extends Entity {
     // Exempel på logik som gör det svårare att fly om spelaren har attackerat
     public boolean checkForRetreat() {
         if (this.isHasAttacked()) {
-            return random.nextInt(100) + 1 <= 20;  // 20% chans att fly efter attack
+            return random.nextInt(100) + 1 <= 30;  // 30% chans att fly efter attack
         } else {
             return random.nextInt(100) + 1 <= 70;  // 70% chans att fly innan attack
         }

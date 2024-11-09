@@ -32,6 +32,8 @@ public class GUI {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(600, 600);
 
+        JOptionPane.showMessageDialog(null,"Du vaknade upp i soffan av massa prassel från hallen!");
+
         JPanel panel = new JPanel(new BorderLayout());
 
         // Skapa riktningsknappar och ställ in större storlek och font

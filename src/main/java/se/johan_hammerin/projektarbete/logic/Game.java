@@ -4,7 +4,7 @@ import se.johan_hammerin.projektarbete.model.*;
 
 
 public class Game {
-    private final Resident resident;  // Använd hjälten som passeras in
+    private final Resident resident;
 
 
     // Constructor tar emot hjälten
@@ -52,6 +52,4 @@ public class Game {
             return "Vardagsrum";
         else return "Inget";
     }
-
-
 }

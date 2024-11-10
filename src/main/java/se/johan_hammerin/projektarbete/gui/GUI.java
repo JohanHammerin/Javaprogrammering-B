@@ -291,17 +291,17 @@ public class GUI {
     private void enterOffice(Resident resident) {
         westButton.setText("Vardagsrum");
         disableMovementButtons();
-        westButton.setEnabled(true);
 
         if (resident.isDefeatedEnemy()) {
             int answer = JOptionPane.showConfirmDialog(null, "Vill du ringa polisen?", "Val", JOptionPane.YES_NO_OPTION);
             if (answer == JOptionPane.YES_OPTION) {
-                eastButton.setEnabled(false);
                 JOptionPane.showMessageDialog(null, "Du ringde polisen!\nSpelet avslutas...");
                 System.exit(0);
+            } else {
+                westButton.setEnabled(true);
             }
         } else {
-            JOptionPane.showMessageDialog(null, "Du måste besegra tjuven för att kunna ringa polisen!");
+            JOptionPane.showMessageDialog(null, "Kontoret är låst!");
         }
     }
 

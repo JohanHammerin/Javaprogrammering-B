@@ -32,7 +32,7 @@ public class GUI {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(600, 600);
 
-        JOptionPane.showMessageDialog(null,"Du vaknade upp i soffan av massa prassel från hallen!");
+        JOptionPane.showMessageDialog(null, "Du vaknade upp i soffan av massa prassel från hallen!");
 
         JPanel panel = new JPanel(new BorderLayout());
 
@@ -148,8 +148,6 @@ public class GUI {
             case "Vardagsrum" -> enterLivingRoom();
             default -> System.out.println("Fel i updatePosition metoden");
         }
-
-
     }
 
     private void showBattleOptions() {
@@ -326,7 +324,6 @@ public class GUI {
                 resident.setHealth(resident.getHealth() + 3);
                 if (resident.getHealth() > 12) {
                     resident.setHealth(12);
-
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "Du måste förtjäna din sömn.");

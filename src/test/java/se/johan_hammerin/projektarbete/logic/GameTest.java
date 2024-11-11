@@ -2,6 +2,7 @@ package se.johan_hammerin.projektarbete.logic;
 
 import junit.framework.Assert;
 import junit.framework.TestCase;
+import org.junit.jupiter.api.Test;
 import se.johan_hammerin.projektarbete.model.*;
 
 public class GameTest extends TestCase {

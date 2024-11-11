@@ -6,9 +6,9 @@ import se.johan_hammerin.projektarbete.gui.GUI;
 
 public class Main {
     public static void main(String[] args) {
-        Resident hero = new Resident();
-        new Game(hero);
+        Resident resident = new Resident();
+        new Game(resident);
         GUI gui = new GUI();
-        gui.createGUI(hero);
+        gui.createGUI(resident);
     }
 }

@@ -299,7 +299,7 @@ public class GUI {
                 westButton.setEnabled(true);
             }
         } else {
-            JOptionPane.showMessageDialog(null, "Kontoret är låst!");
+            JOptionPane.showMessageDialog(null, "Finns ingen anledning att ringa nu.");
             westButton.setEnabled(true);
 
         }

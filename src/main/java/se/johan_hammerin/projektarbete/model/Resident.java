@@ -35,6 +35,7 @@ public class Resident extends Entity {
         moveInDirection(x, y);
     }
 
+
     private void moveInDirection(int x, int y) {
         if (y > 0) {
             if (getSouth() > 0) {

@@ -2,26 +2,25 @@ package se.johan_hammerin.projektarbete.logic;
 
 import junit.framework.Assert;
 import junit.framework.TestCase;
-import org.junit.jupiter.api.Test;
 import se.johan_hammerin.projektarbete.model.*;
 
 public class GameTest extends TestCase {
 
     public void testBattleRound() {
-        // Skapa hjälte och motståndare
-        Resident hero = new Resident();
+        // Skapa resident och burglar
+        Resident resident = new Resident();
         Entity burglar = new Burglar();
 
         // Hämta ursprunglig hälsa
-        int heroHealthBeforeBattleRound = hero.getHealth();
+        int heroHealthBeforeBattleRound = resident.getHealth();
         int burglarHealthBeforeBattleRound = burglar.getHealth();
 
         // Skapa Game-instans och kör en omgång av battleRound
-        Game game = new Game(hero);
-        game.battleRound(hero, burglar);
+        Game game = new Game(resident);
+        game.battleRound(resident, burglar);
 
         // Hämta hälsa efter striden
-        int heroHealthAfterBattleRound = hero.getHealth();
+        int heroHealthAfterBattleRound = resident.getHealth();
         int burglarHealthAfterBattleRound = burglar.getHealth();
 
         // Kontrollera att hjälten och motståndaren har förlorat hälsa efter striden

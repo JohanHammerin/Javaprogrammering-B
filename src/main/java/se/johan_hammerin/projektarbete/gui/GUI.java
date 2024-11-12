@@ -300,6 +300,8 @@ public class GUI {
             }
         } else {
             JOptionPane.showMessageDialog(null, "Kontoret är låst!");
+            westButton.setEnabled(true);
+
         }
     }
 
